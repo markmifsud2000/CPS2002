@@ -6,7 +6,7 @@ public class HelloWorld {
             return "Hello World!";
         }
         else {
-            return null;
+            return "";
         }
 
     }
