@@ -3,10 +3,10 @@ public class HelloWorld {
     public String getHello(boolean b){
 
         if (b) {
-            return "Goodbye!";
+            return "Goodbye!"
         }
         else {
-            return "";
+            return ""
         }
 
     }
