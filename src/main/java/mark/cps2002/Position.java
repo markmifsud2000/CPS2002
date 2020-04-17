@@ -2,16 +2,20 @@ package mark.cps2002;
 
 public class Position {
 
-    public Position(int x, int y) {
+    private int x;
+    private int y;
 
+    public Position(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
     public int getX() {
-        return 0;
+        return this.x;
     }
 
     public int getY() {
-        return 0;
+        return this.y;
     }
 
 }
