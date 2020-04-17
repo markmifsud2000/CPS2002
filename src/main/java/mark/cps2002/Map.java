@@ -10,8 +10,8 @@ public class Map {
 
     }
 
-    public int getTileType() {
-        return 0;
+    public TileType getTileType() {
+        return null;
     }
 
     public Position selectRandomStartTile() {

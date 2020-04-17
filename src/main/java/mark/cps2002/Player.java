@@ -6,7 +6,7 @@ public class Player {
 
     }
 
-    public boolean move(int direction) {
+    public boolean move(Direction direction) {
         return false;
     }
 
@@ -34,11 +34,11 @@ public class Player {
         return false;
     }
 
-    public int getNotice() {
-        return 0;
+    public PlayerNotice getNotice() {
+        return null;
     }
 
-    public void setNotice(int notice) {
+    public void setNotice(PlayerNotice notice) {
 
     }
 
