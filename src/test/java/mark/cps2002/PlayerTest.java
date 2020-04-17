@@ -23,36 +23,40 @@ public class PlayerTest {
 
     @Test
     public void move_up_changes_position() {
-        p.move(Direction.UP);
+        boolean b = p.move(Direction.UP);
 
         //Y value should increase by 1
+        assertEquals(true,b);
         assertEquals(5,p.getPosition().getX());
         assertEquals(6,p.getPosition().getY());
     }
 
     @Test
     public void move_down_changes_position() {
-        p.move(Direction.DOWN);
+        boolean b = p.move(Direction.DOWN);
 
         //Y value should decrease by 1
+        assertEquals(true, b);
         assertEquals(5, p.getPosition().getX());
         assertEquals(4, p.getPosition().getY());
     }
 
     @Test
     public void move_left_changes_position() {
-        p.move(Direction.LEFT);
+        boolean b = p.move(Direction.LEFT);
 
         //X value should decrease by 1
+        assertEquals(true,b);
         assertEquals(4,p.getPosition().getX());
         assertEquals(5,p.getPosition().getY());
     }
 
     @Test
     public void move_right_changes_position() {
-        p.move(Direction.RIGHT);
+        boolean b = p.move(Direction.RIGHT);
 
         //X value should increase by 1
+        assertEquals(true,b);
         assertEquals(6,p.getPosition().getX());
         assertEquals(5,p.getPosition().getY());
     }
