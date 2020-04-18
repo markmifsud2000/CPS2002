@@ -2,9 +2,10 @@ package mark.cps2002;
 
 public class Player {
 
-    int playerId;                   //Unique Identifier for the Player
-    Position currentPosition;       //The Player's current Position on the board
-    Position startTile;             //The tile that the player starts the game on
+    private int playerId;                   //Unique Identifier for the Player
+    private Position currentPosition;       //The Player's current Position on the board
+    private Position startTile;             //The tile that the player starts the game on
+    private boolean[][] revealedMap;        //Tile is set to true if the player has revealed that tile
 
 
     /**
@@ -16,6 +17,14 @@ public class Player {
      */
     public Player(int playerID, int boardWidth, int boardHeight, Position startPosition) {
         this.playerId = playerID;
+
+        this.revealedMap = new boolean[boardWidth][boardHeight];
+        for (int i = 0; i < boardWidth; i++) {
+            for (int j = 0; j < boardHeight; j++) {
+                //Mark all tiles as NOT revealed
+                this.revealedMap[i][j] = false;
+            }
+        }
 
         this.startTile = startPosition;
         this.currentPosition = startPosition;
@@ -30,24 +39,58 @@ public class Player {
 
         boolean success = true;
 
+        //Move player in the given direction
         switch (direction) {
             case UP:
-                this.currentPosition = new Position(currentPosition.getX(),currentPosition.getY()+1);
+                //Check if the player is in the top row
+                if (currentPosition.getY() > 0) {
+                    //There is space to move, update position
+                    currentPosition = new Position(currentPosition.getX(), currentPosition.getY() - 1);
+                }
+                else {
+                    //Player is in the top row and cannot move further up
+                    success = false;
+                }
                 break;
 
             case DOWN:
-                this.currentPosition = new Position(currentPosition.getX(),currentPosition.getY()-1);
+                //Check if the player is in the bottom row
+                if (currentPosition.getY() < revealedMap.length-1) {
+                    //There is space to move, update position
+                    currentPosition = new Position(currentPosition.getX(), currentPosition.getY() + 1);
+                }
+                else {
+                    //Player is in the bottom row and cannot move further down
+                    success = false;
+                }
                 break;
 
             case LEFT:
-                this.currentPosition = new Position(currentPosition.getX()-1,currentPosition.getY());
+                //Check if the player is in the first column
+                if (currentPosition.getX() > 0) {
+                    //There is space to move, update position
+                    currentPosition = new Position(currentPosition.getX() - 1, currentPosition.getY());
+                }
+                else {
+                    //Player is in the first column and cannot move further left
+                    success = false;
+                }
                 break;
 
             case RIGHT:
-                this.currentPosition = new Position(currentPosition.getX()+1,currentPosition.getY());
+                //Check if the player is in the last column
+                if (currentPosition.getX() < revealedMap[0].length-1) {
+                    //There is space to move, update position
+                    currentPosition = new Position(currentPosition.getX() + 1, currentPosition.getY());
+                }
+                else {
+                    //Player is in the first column and cannot move further right
+                    success = false;
+                }
                 break;
 
             default:
+                //Invalid Direction
                 success = false;
 
         }

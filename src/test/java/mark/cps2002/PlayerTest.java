@@ -28,7 +28,7 @@ public class PlayerTest {
         //Y value should increase by 1
         assertEquals(true,b);
         assertEquals(5,p.getPosition().getX());
-        assertEquals(6,p.getPosition().getY());
+        assertEquals(4,p.getPosition().getY());
     }
 
     @Test
@@ -38,7 +38,7 @@ public class PlayerTest {
         //Y value should decrease by 1
         assertEquals(true, b);
         assertEquals(5, p.getPosition().getX());
-        assertEquals(4, p.getPosition().getY());
+        assertEquals(6, p.getPosition().getY());
     }
 
     @Test
