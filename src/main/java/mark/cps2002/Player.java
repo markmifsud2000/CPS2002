@@ -102,8 +102,8 @@ public class Player {
 
     }
 
-    public void revealTile(Position p) {
-
+    public boolean revealTile(Position p) {
+        return false;
     }
 
     public void revealAllTiles() {
@@ -126,7 +126,7 @@ public class Player {
         return this.currentPosition;
     }
 
-    public boolean isTileRevealed() {
+    public boolean isTileRevealed(Position p) {
         return false;
     }
 
