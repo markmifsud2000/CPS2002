@@ -6,6 +6,7 @@ public class Player {
     private Position currentPosition;       //The Player's current Position on the board
     private Position startTile;             //The tile that the player starts the game on
     private boolean[][] revealedMap;        //Tile is set to true if the player has revealed that tile
+    private PlayerNotice notice;            //Any notices that need to be passed to the player
 
 
     /**
@@ -28,6 +29,8 @@ public class Player {
 
         this.startTile = startPosition;
         this.currentPosition = startPosition;
+
+        this.notice = PlayerNotice.NONE;
     }
 
     /**
@@ -98,16 +101,56 @@ public class Player {
         return success;
     }
 
+    /**
+     * Resets the player to the start of the game.
+     * Player returns to starting position and Map becomes covered again.
+     */
     public void reset() {
+        //Reset Player Position
+        currentPosition = startTile;
 
+        //Cover board again
+        for(int i = 0; i < revealedMap.length; i++) {
+            for (int j = 0; j < revealedMap[0].length; j++) {
+                revealedMap[i][j] = false;
+            }
+        }
+
+        //Reset Notice
+        notice = PlayerNotice.NONE;
     }
 
+    /**
+     * Marks a given tile as revealed to the player.
+     * @param p The position of the tile to be revealed.
+     * @return True if the tile is successfully revealed, false otherwise.
+     */
     public boolean revealTile(Position p) {
-        return false;
+        //Check if position is part of the board
+        if (p.getX() >= 0 && p.getX() < revealedMap.length) { // Check x value
+            if (p.getY() >= 0 && p.getY() < revealedMap[0].length) { // Check y value
+                //Position is valid, mark it as revealed
+                revealedMap[p.getX()][p.getY()] = true;
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            return false;
+        }
     }
 
+    /**
+     * Mark the entire map as revealed.
+     */
     public void revealAllTiles() {
-
+        for(int i = 0; i < revealedMap.length; i++) {
+            for (int j = 0; j < revealedMap[0].length; j++) {
+                revealedMap[i][j] = true;
+            }
+        }
     }
 
     /**
@@ -126,20 +169,37 @@ public class Player {
         return this.currentPosition;
     }
 
+    /**
+     * Check if a given tile has been revealed by the player.
+     * @param p The position of the tile.
+     * @return True if the tile has been revealed, false otherwise.
+     */
     public boolean isTileRevealed(Position p) {
-        return false;
+        return revealedMap[p.getX()][p.getY()];
     }
 
+    /**
+     * Returns any notices that have been given to the player.
+     * @return The notice.
+     */
     public PlayerNotice getNotice() {
-        return null;
+        return this.notice;
     }
 
+    /**
+     * Sets the players notice.
+     * @param notice The notice to be set.
+     */
     public void setNotice(PlayerNotice notice) {
-
+        this.notice = notice;
     }
 
+    /**
+     * Checks if the player has won the game.
+     * @return True if the player has won, false otherwise.
+     */
     public boolean hasWon() {
-        return false;
+        return (getNotice() == PlayerNotice.WIN);
     }
 
 }
