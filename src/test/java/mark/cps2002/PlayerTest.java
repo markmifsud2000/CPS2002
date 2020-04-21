@@ -31,12 +31,12 @@ public class PlayerTest {
         //All tiles on grid should be covered
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
-                assertEquals(false, p.isTileRevealed(new Position(i, j)));
+                assertEquals(false, myPlayer.isTileRevealed(new Position(i, j)));
             }
         }
 
         //Player should be in starting position
-        Position currentPosition = p.getPosition();
+        Position currentPosition = myPlayer.getPosition();
         assertEquals(1, currentPosition.getX());
         assertEquals(7,currentPosition.getY());
     }

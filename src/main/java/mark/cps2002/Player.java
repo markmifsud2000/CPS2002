@@ -15,10 +15,17 @@ public class Player {
      * @param boardWidth The width of the board being used.
      * @param boardHeight The Height of the board being used.
      * @param startPosition The position of the player at the start of the game.
+     * @throws IllegalArgumentException If board parameters are negative or if starting position is not on the board.
      */
-    public Player(int playerID, int boardWidth, int boardHeight, Position startPosition) {
+    public Player(int playerID, int boardWidth, int boardHeight, Position startPosition) throws IllegalArgumentException{
         this.playerId = playerID;
 
+        //Check if board values are valid
+        if(boardHeight <= 0 || boardWidth <= 0) {
+            throw new IllegalArgumentException("Board Sizes must all be greater than 0.");
+        }
+
+        //Board values are good, create map
         this.revealedMap = new boolean[boardWidth][boardHeight];
         for (int i = 0; i < boardWidth; i++) {
             for (int j = 0; j < boardHeight; j++) {
@@ -27,6 +34,13 @@ public class Player {
             }
         }
 
+        //Check if start position is actually on the map
+        if (startPosition.getX() < 0 || startPosition.getX() >= boardWidth ||
+                startPosition.getY() < 0 || startPosition.getY() >= boardHeight) {
+            throw new IllegalArgumentException("Starting position must be a tile within the board.");
+        }
+
+        //Start position is good, place the player at the start position
         this.startTile = startPosition;
         this.currentPosition = startPosition;
 
