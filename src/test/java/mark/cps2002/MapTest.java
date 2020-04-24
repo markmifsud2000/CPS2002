@@ -21,6 +21,22 @@ public class MapTest {
         m = null;
     }
 
+    @Test (expected = IllegalArgumentException.class)
+    public void map_boardWidthNegative_throwsException(){
+        Map badMap = new Map(-10, 10);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void map_boardHeightNegative_throwsException(){
+        Map badMap = new Map(10, -10);
+    }
+
+    @Test
+    public void getTileType_positionOutOfBounds_returnsNull() {
+        Position badPosition = new Position(52, -1);
+        assertEquals(null, m.getTileType(badPosition));
+    }
+
     @Test
     public void selectRandomStartTile_get10tiles_allTilesWithinBounds() {
         Position startTile;
