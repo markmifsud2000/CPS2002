@@ -10,7 +10,7 @@ public class Map {
 
     }
 
-    public TileType getTileType() {
+    public TileType getTileType(Position pos) {
         return null;
     }
 
