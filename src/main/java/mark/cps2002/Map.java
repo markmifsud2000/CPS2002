@@ -2,9 +2,9 @@ package mark.cps2002;
 
 public class Map {
 
-    TileType[][] grid;      //The actual grid of tiles on the map
-    int width;              //The width of the map
-    int height;             //The height of the map
+    private TileType[][] grid;      //The actual grid of tiles on the map
+    private int width;              //The width of the map
+    private int height;             //The height of the map
 
     /**
      * Constructor for Map.
@@ -24,8 +24,33 @@ public class Map {
         this.height = boardHeight;
     }
 
+    /**
+     * Generate the map.
+     * Populates the map grid with grass, water and 1 treasure tile.
+     */
     public void generate() {
 
+        //Iterate through each tile on the grid.
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                //Randomly decide what type of tile will be generated
+                //Tiles have a 20% chance of being water tiles, otherwise they are grass
+                double r = Math.random();
+                if (r < 0.2) { //Water Tile
+                    grid[i][j] = TileType.WATER;
+                }
+                else { //Grass Tile
+                    grid[i][j] = TileType.GRASS;
+                }
+            }
+        }
+
+
+        //Once the map has been generated, we can randomly select a position for the treasure tile
+        int treasureX = (int) Math.floor(Math.random()*width);
+        int treasureY = (int) Math.floor(Math.random()*height);
+
+        grid[treasureX][treasureY] = TileType.TREASURE;
     }
 
     /**
@@ -45,8 +70,29 @@ public class Map {
         }
     }
 
+    /**
+     * Randomly picks a grass tile to that is possible to use as a starting tile.
+     * @return The start tile selected.
+     */
     public Position selectRandomStartTile() {
-        return null;
+
+        boolean isNotGrass = true;    //Flag, true if the selected tile is invalid
+        Position startTile;           //The start tile to be returned
+
+        //Loop until a valid tile is selected
+        do{
+            //Randomly select a tile on the board
+            int randX = (int) Math.floor(Math.random()*width);
+            int randY = (int) Math.floor(Math.random()*height);
+            startTile = new Position(randX, randY);
+
+            //Check if the selected tile is grass
+            //If not grass, select a different tile
+            isNotGrass = (getTileType(startTile) != TileType.GRASS);
+
+        } while (isNotGrass);
+
+        return startTile;
     }
 
     /**
