@@ -14,4 +14,16 @@ public class Game {
 
     }
 
+    public int getNumberOfPlayers() {
+        return 0;
+    }
+
+    public int getTurnNumber() {
+        return 0;
+    }
+
+    public boolean isGameFinished() {
+        return false;
+    }
+
 }
