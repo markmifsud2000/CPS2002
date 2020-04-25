@@ -38,6 +38,13 @@ public class MapTest {
     }
 
     @Test
+    public void getTileType_blankMap_returnsNull() {
+        Map blankMap = new Map(10,10);
+        Position pos = new Position(2,2);
+        assertEquals(null, blankMap.getTileType(pos));
+    }
+
+    @Test
     public void selectRandomStartTile_get10tiles_allTilesWithinBounds() {
         Position startTile;
 
@@ -67,6 +74,12 @@ public class MapTest {
     }
 
     @Test
+    public void selectRandomStartTile_blankMap_returnsNull() {
+        Map blankMap = new Map(10,10);
+        assertEquals(null, blankMap.selectRandomStartTile());
+    }
+
+    @Test
     public void getWidth_10x5Map_returns10() {
         assertEquals(10,m.getWidth());
     }
@@ -74,6 +87,19 @@ public class MapTest {
     @Test
     public void getHeight_10x5Map_returns5() {
         assertEquals(5,m.getHeight());
+    }
+
+    @Test
+    public void isGenerated_blankMap_returnsFalse() {
+        Map blankMap = new Map(10,10);
+        assertEquals(false, blankMap.isGenerated());
+    }
+
+    @Test
+    public void isGenerated_generatedMap_returnsTrue() {
+        Map generatedMap = new Map(10,10);
+        generatedMap.generate();
+        assertEquals(true, generatedMap.isGenerated());
     }
 
 }

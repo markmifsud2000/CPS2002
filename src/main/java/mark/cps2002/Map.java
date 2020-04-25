@@ -5,6 +5,7 @@ public class Map {
     private TileType[][] grid;      //The actual grid of tiles on the map
     private int width;              //The width of the map
     private int height;             //The height of the map
+    private boolean isGenerated;    //True if the map has been generated, false otherwise
 
     /**
      * Constructor for Map.
@@ -22,6 +23,8 @@ public class Map {
         this.grid = new TileType[boardWidth][boardHeight];
         this.width = boardWidth;
         this.height = boardHeight;
+
+        this.isGenerated = false;
     }
 
     /**
@@ -51,6 +54,9 @@ public class Map {
         int treasureY = (int) Math.floor(Math.random()*height);
 
         grid[treasureX][treasureY] = TileType.TREASURE;
+
+        //Mark the map as generated
+        isGenerated = true;
     }
 
     /**
@@ -59,8 +65,8 @@ public class Map {
      * @return The type of the tile.
      */
     public TileType getTileType(Position pos) {
-        //Ensure position is on the map
-        if(pos.getX() < 0 || pos.getX() >= width ||
+        //Ensure that the map has been generated and the position is on the map
+        if(!isGenerated || pos.getX() < 0 || pos.getX() >= width ||
                 pos.getY() < 0 || pos.getY() >= height) {
             return null;
         }
@@ -75,6 +81,11 @@ public class Map {
      * @return The start tile selected.
      */
     public Position selectRandomStartTile() {
+
+        //Check if the map has been generated.
+        if(!isGenerated) {
+            return null;
+        }
 
         boolean isNotGrass = true;    //Flag, true if the selected tile is invalid
         Position startTile;           //The start tile to be returned
@@ -109,6 +120,14 @@ public class Map {
      */
     public int getHeight() {
         return this.height;
+    }
+
+    /**
+     * Check if the map has been generated yet.
+     * @return True if the map has been generated, false otherwise.
+     */
+    public boolean isGenerated() {
+        return isGenerated;
     }
 
 }
