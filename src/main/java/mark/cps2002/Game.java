@@ -7,14 +7,66 @@ public class Game {
     final int SMALL_BOARD_PLAYER_LIMIT = 4; //The number of players for which the minimum board size changes
     final int MIN_BOARD_SIZE_SMALL = 5;     //The minimum board size for few players
     final int MIN_BOARD_SIZE_BIG = 8;       //The minimum board size for many players
+    final int MAX_BOARD_SIZE = 50;          //The maximum board size for any number of players
 
     Player[] players;       //The players currently in the game
     Map map;                //The map being played on
     int turn;               //The current turn number
     boolean gameFinished;   //Whether or not the game has been finished yet
 
-    public Game(int noOfPlayers, int boardWidth, int boardHeight) {
+    /**
+     * Constructor for Game.
+     * Sets up a game to be played.
+     * @param noOfPlayers The number of players in the game.
+     * @param boardWidth The width of the map to be played on.
+     * @param boardHeight The height of the board to be played on.
+     * @throws IllegalArgumentException If any arguments are invalid or are not within limits.
+     */
+    public Game(int noOfPlayers, int boardWidth, int boardHeight) throws IllegalArgumentException{
+
+        //Check if all arguments are valid
+        //Check noOfPlayers
+        if(noOfPlayers < MIN_PLAYERS || noOfPlayers > MAX_PLAYERS) {
+            String message = "Invalid number of players. Must be between " + MIN_PLAYERS + " and " + MAX_PLAYERS + ".";
+            throw new IllegalArgumentException(message);
+        }
+        //Check if board sizes are too large
+        else if(boardWidth > MAX_BOARD_SIZE) {
+            String message = "Board is too large. Maximum size is " + MAX_BOARD_SIZE + "x" + MAX_BOARD_SIZE + ".";
+            throw new IllegalArgumentException(message);
+        }
+        //Check if board sizes are too small
+        else {
+            //If there are many players
+            if(noOfPlayers > SMALL_BOARD_PLAYER_LIMIT) {
+                if(boardHeight < MIN_BOARD_SIZE_BIG || boardWidth < MIN_BOARD_SIZE_BIG) {
+                    String message = "Board is too small. Minimum size for over " + SMALL_BOARD_PLAYER_LIMIT
+                            + " players is " + MIN_BOARD_SIZE_BIG + "x" + MIN_BOARD_SIZE_BIG + ".";
+                    throw new IllegalArgumentException(message);
+                }
+            }
+            //If there are few players
+            else if (boardHeight < MIN_BOARD_SIZE_SMALL || boardWidth < MIN_BOARD_SIZE_SMALL) {
+                String message = "Board is too small. Minimum size is " + MIN_BOARD_SIZE_SMALL + "x"
+                        + MIN_BOARD_SIZE_SMALL + ".";
+                throw new IllegalArgumentException(message);
+            }
+        }
+
+        //All arguments are correct, setup the game
+
+        //Create Map to play on
+        this.map = new Map(boardWidth, boardHeight);
+        this.map.generate();
+
+        //Create players
         this.players = new Player[noOfPlayers];
+        for (int i = 0; i < noOfPlayers; i++) {
+            Position start = this.map.selectRandomStartTile();
+            this.players[i] = new Player(i, boardWidth, boardHeight, start);
+        }
+
+        //Initialise other values
         this.turn = 0;
         this.gameFinished = false;
     }
@@ -27,14 +79,26 @@ public class Game {
 
     }
 
+    /**
+     * Get the number of players in the game.
+     * @return The number of players.
+     */
     public int getNumberOfPlayers() {
         return players.length;
     }
 
+    /**
+     * Get the current turn number.
+     * @return The current turn number.
+     */
     public int getTurnNumber() {
         return turn;
     }
 
+    /**
+     * Check if the game has finished yet.
+     * @return True if the game is over, false otherwise.
+     */
     public boolean isGameFinished() {
         return gameFinished;
     }
