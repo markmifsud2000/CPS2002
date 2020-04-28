@@ -73,10 +73,85 @@ public class Game {
 
     public void startGame() {
 
+
+
     }
 
+    /**
+     * Generates the HTML file with the map for a given player.
+     * @param player HTML generated for this player.
+     */
     public void generateHTML(Player player) {
 
+        /*
+         *
+         * TEMPORARY IMPLEMENTATION, PRINTS TO CONSOLE INSTEAD OF HTML
+         *
+         */
+
+        System.out.println("Player " + (player.getId()+1) + ";\n");
+
+        //Print column numbers
+        System.out.print("  ");
+        for (int i = 0; i < map.getWidth(); i++) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+
+        //Print Map
+        for(int i = 0; i < map.getHeight(); i++) {
+            //Print each row
+            System.out.print(i + " ");
+            for (int j = 0; j < map.getWidth(); j++) {
+                //Print each tile in the row
+                //Check if tile is revealed
+                char type = '?';
+                Position tile = new Position(j, i);
+
+                if (player.isTileRevealed(tile)) {
+                    //Check tile type
+                    switch (map.getTileType(tile)) {
+                        case GRASS:
+                            type = 'G';
+                            break;
+
+                        case WATER:
+                            type = 'W';
+                            break;
+
+                        case TREASURE:
+                            type = 'T';
+                            break;
+                    }
+                }
+                else {
+                    //Tile still covered
+                    type = '0';
+                }
+
+                System.out.print(type + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+
+        //Print any notices
+        String msg = "";
+        switch (player.getNotice()) {
+            case WATER:
+                msg = msg.concat("SPLASH! You hit a water tile, back to the start;");
+                break;
+
+            case WIN:
+                msg = msg.concat("YOU WIN!!!");
+                break;
+
+            case LOSE:
+                msg = msg.concat("YOU LOSE :(");
+                break;
+        }
+        System.out.println("Notice: " + msg);
+        System.out.println("\n\n\n");
     }
 
     /**
