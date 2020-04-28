@@ -46,6 +46,60 @@ public class GameTest {
     }
 
     @Test
+    public void checkPlayerInput_playerInputsUp_returnsDirectionUp() {
+        Position pos = new Position(5, 5);
+        assertEquals(Direction.UP, myGame.checkPlayerInput("U", pos));
+    }
+
+    @Test
+    public void checkPlayerInput_playerInputsUp_outOfBounds_returnsNull() {
+        Position pos = new Position(5, 0);
+        assertEquals(null, myGame.checkPlayerInput("U", pos));
+    }
+
+    @Test
+    public void checkPlayerInput_playerInputsDown_returnsDirectionDown() {
+        Position pos = new Position(5, 5);
+        assertEquals(Direction.DOWN, myGame.checkPlayerInput("D", pos));
+    }
+
+    @Test
+    public void checkPlayerInput_playerInputsDown_outOfBounds_returnsNull() {
+        Position pos = new Position(5, 14);
+        assertEquals(null, myGame.checkPlayerInput("D", pos));
+    }
+
+    @Test
+    public void checkPlayerInput_playerInputsLeft_returnsDirectionLeft() {
+        Position pos = new Position(5, 5);
+        assertEquals(Direction.LEFT, myGame.checkPlayerInput("L", pos));
+    }
+
+    @Test
+    public void checkPlayerInput_playerInputsLeft_outOfBounds_returnsNull() {
+        Position pos = new Position(0, 5);
+        assertEquals(null, myGame.checkPlayerInput("L", pos));
+    }
+
+    @Test
+    public void checkPlayerInput_playerInputsRight_returnsDirectionRight() {
+        Position pos = new Position(5, 5);
+        assertEquals(Direction.RIGHT, myGame.checkPlayerInput("R", pos));
+    }
+
+    @Test
+    public void checkPlayerInput_playerInputsRight_outOfBounds_returnsNull() {
+        Position pos = new Position(9, 5);
+        assertEquals(null, myGame.checkPlayerInput("R", pos));
+    }
+
+    @Test
+    public void checkPlayerInput_invalidString_returnsNull() {
+        Position pos = new Position(5, 5);
+        assertEquals(null, myGame.checkPlayerInput("Hello World", pos));
+    }
+
+    @Test
     public void getNumberOfPlayers_4Players_returns4() {
         assertEquals(4, myGame.getNumberOfPlayers());
     }

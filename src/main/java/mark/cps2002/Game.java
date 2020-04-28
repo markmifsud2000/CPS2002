@@ -74,6 +74,33 @@ public class Game {
     public void startGame() {
 
 
+    }
+
+    /**
+     * Checks the players input to determine the direction.
+     * Also checks if input is valid.
+     * @param s The user input string.
+     * @param pos The current position of the player. Used to check bounds.
+     * @return The direction input by the used. null if invalid.
+     */
+    public Direction checkPlayerInput (String s, Position pos) {
+        return null;
+    }
+
+    /**
+     * Update the players position/state.
+     * @param player The player to be updated.
+     * @param dir The direction the player is moving in.
+     */
+    public void updatePlayer(Player player, Direction dir) {
+
+    }
+
+    /**
+     * End the game.
+     * Update all players.
+     */
+    public void finishGame() {
 
     }
 
@@ -89,7 +116,8 @@ public class Game {
          *
          */
 
-        System.out.println("Player " + (player.getId()+1) + ";\n");
+        System.out.println("Player " + (player.getId()+1) + ";");
+        System.out.println("Turn " + turn + ";\n");
 
         //Print column numbers
         System.out.print("  ");
@@ -134,6 +162,12 @@ public class Game {
             System.out.println();
         }
         System.out.println();
+
+        //Show Start Position
+        System.out.println("Start : " + player.getStartPosition().toString());
+
+        //Show current Position
+        System.out.println("Position : " + player.getPosition().toString());
 
         //Print any notices
         String msg = "";
