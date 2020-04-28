@@ -184,6 +184,14 @@ public class Player {
     }
 
     /**
+     * Get the player's start position.
+     * @return The player's start position.
+     */
+    public Position getStartPosition() {
+        return this.startTile;
+    }
+
+    /**
      * Check if a given tile has been revealed by the player.
      * @param p The position of the tile.
      * @return True if the tile has been revealed, false otherwise.

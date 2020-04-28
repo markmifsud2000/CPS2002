@@ -263,6 +263,13 @@ public class PlayerTest {
     }
 
     @Test
+    public void getStartPosition_returnsPosition() {
+        Position startPosition = p.getStartPosition();
+        assertEquals(5, startPosition.getX());
+        assertEquals(5, startPosition.getY());
+    }
+
+    @Test
     public void getNotice_NoticeUnchanged_returnsNONE() {
         PlayerNotice n = p.getNotice();
         assertEquals(PlayerNotice.NONE, n);

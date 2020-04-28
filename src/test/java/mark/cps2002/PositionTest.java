@@ -29,4 +29,9 @@ public class PositionTest {
         assertEquals(128, p.getY());
     }
 
+    @Test
+    public void toString_returnedStringContainsPosition() {
+        assertEquals("(3,128)", p.toString());
+    }
+
 }
