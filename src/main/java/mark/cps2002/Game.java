@@ -1,18 +1,20 @@
 package mark.cps2002;
 
+import java.util.Scanner;
+
 public class Game {
 
-    final int MIN_PLAYERS = 2;              //The minimum number of players
-    final int MAX_PLAYERS = 8;              //The maximum number of players
-    final int SMALL_BOARD_PLAYER_LIMIT = 4; //The number of players for which the minimum board size changes
-    final int MIN_BOARD_SIZE_SMALL = 5;     //The minimum board size for few players
-    final int MIN_BOARD_SIZE_BIG = 8;       //The minimum board size for many players
-    final int MAX_BOARD_SIZE = 50;          //The maximum board size for any number of players
+    private final int MIN_PLAYERS = 2;              //The minimum number of players
+    private final int MAX_PLAYERS = 8;              //The maximum number of players
+    private final int SMALL_BOARD_PLAYER_LIMIT = 4; //The number of players for which the minimum board size changes
+    private final int MIN_BOARD_SIZE_SMALL = 5;     //The minimum board size for few players
+    private final int MIN_BOARD_SIZE_BIG = 8;       //The minimum board size for many players
+    private final int MAX_BOARD_SIZE = 50;          //The maximum board size for any number of players
 
-    Player[] players;       //The players currently in the game
-    Map map;                //The map being played on
-    int turn;               //The current turn number
-    boolean gameFinished;   //Whether or not the game has been finished yet
+    private Player[] players;       //The players currently in the game
+    private Map map;                //The map being played on
+    private int turn;               //The current turn number
+    private boolean gameFinished;   //Whether or not the game has been finished yet
 
     /**
      * Constructor for Game.
@@ -71,8 +73,72 @@ public class Game {
         this.gameFinished = false;
     }
 
+    /**
+     * The main game loop.
+     * Calling this method begins the game.
+     */
     public void startGame() {
 
+        Scanner sc = new Scanner(System.in);
+        sc.useDelimiter("\n");
+
+        //Loop until the game is over
+        do {
+
+            //Start the new turn
+            turn++;
+
+            //Print Map
+            //ONLY FOR TESTING - REMOVE LATER
+            map.printMap();
+            System.out.println("\n");
+
+            //Generate the HTML map for each player
+            for (Player p: players) {
+                generateHTML(p);
+                p.setNotice(PlayerNotice.NONE); //Clear notice
+            }
+
+
+            //Store the movement direction selected by each player
+            Direction[] playerMoves = new Direction[players.length];
+
+            //Each player takes their turn
+            for (int i = 0; i < players.length; i++) {
+                //Loop turn for the same player until the input is valid
+                do {
+                    //Ask the player to input a direction
+                    System.out.println("Player " + (players[i].getId()+1));
+                    System.out.println("Please enter a direction: (U)p, (D)own, (L)eft, (R)ight");
+                    String input = sc.nextLine();
+
+                    //Convert input string to direction
+                    playerMoves[i] = checkPlayerInput(input, players[i].getPosition());
+
+                    //If it was invalid, inform the user
+                    if (playerMoves[i] == null) {
+                        System.out.println("Please enter a valid direction. Keep inside the bounds of the map.\n");
+                    }
+
+                } while (playerMoves[i] == null); //While input not valid
+
+                System.out.println("\n");
+            }
+
+
+            //Each player has made their move, update them
+            for (int i = 0; i < players.length; i++) {
+                updatePlayer(players[i], playerMoves[i]);
+            }
+
+
+            //Check if any of of the players have won
+            if (isGameFinished()) {
+                finishGame();
+            }
+
+
+        } while (!isGameFinished());    //If game not finished, go to start
 
     }
 
@@ -141,6 +207,9 @@ public class Game {
      * @param dir The direction the player is moving in.
      */
     public void updatePlayer(Player player, Direction dir) {
+
+        //Move the player
+        player.move(dir);
 
         //Get the tile that the player is standing on
         Position pos = player.getPosition();

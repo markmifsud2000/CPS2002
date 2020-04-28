@@ -31,14 +31,23 @@ public class PlayerTest {
         //All tiles on grid should be covered
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
-                assertEquals(false, myPlayer.isTileRevealed(new Position(i, j)));
+                //Exclude start tile
+                if (i != 1 && j != 7) {
+                    assertEquals(false, myPlayer.isTileRevealed(new Position(i, j)));
+                }
             }
         }
+
+        //Check start tile is revealed
+        assertEquals(true, myPlayer.isTileRevealed(start));
 
         //Player should be in starting position
         Position currentPosition = myPlayer.getPosition();
         assertEquals(1, currentPosition.getX());
         assertEquals(7,currentPosition.getY());
+
+        //Player notice is None
+        assertEquals(PlayerNotice.NONE, myPlayer.getNotice());
     }
 
     @Test (expected = Exception.class)
@@ -193,18 +202,20 @@ public class PlayerTest {
         //All tiles on grid should be covered
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
-                assertEquals(false, p.isTileRevealed(new Position(i, j)));
+                //Exclude start tile
+                if (i != 5 && j != 5) {
+                    assertEquals(false, p.isTileRevealed(new Position(i, j)));
+                }
             }
         }
     }
 
     @Test
-    public void reset_clearNotice() {
-        p.setNotice(PlayerNotice.WATER);
+    public void reset_startTileStillRevealed() {
         p.reset();
 
-        //Player notice should be none
-        assertEquals(PlayerNotice.NONE,p.getNotice());
+        //Player start tile should still be revealed
+        assertEquals(true, p.isTileRevealed(new Position(5, 5)));
     }
 
     @Test
@@ -245,7 +256,7 @@ public class PlayerTest {
 
     @Test
     public void isTileRevealed_checkCoveredTile_returnsFalse() {
-        Position pos = new Position(5,5);
+        Position pos = new Position(6,8);
         assertEquals(false, p.isTileRevealed(pos));
     }
 

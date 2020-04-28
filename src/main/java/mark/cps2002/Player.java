@@ -44,6 +44,9 @@ public class Player {
         this.startTile = startPosition;
         this.currentPosition = startPosition;
 
+        //Reveal start tile
+        revealTile(startPosition);
+
         this.notice = PlayerNotice.NONE;
     }
 
@@ -112,6 +115,8 @@ public class Player {
 
         }
 
+        revealTile(currentPosition);
+
         return success;
     }
 
@@ -130,8 +135,8 @@ public class Player {
             }
         }
 
-        //Reset Notice
-        notice = PlayerNotice.NONE;
+        //Reveal start tile
+        revealTile(startTile);
     }
 
     /**
