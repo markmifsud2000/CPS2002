@@ -84,7 +84,55 @@ public class Game {
      * @return The direction input by the used. null if invalid.
      */
     public Direction checkPlayerInput (String s, Position pos) {
-        return null;
+        Direction dir;
+
+        //Read input string
+        if (s.equalsIgnoreCase("U")) {
+            //Up
+            if (pos.getY() <= 0) {
+                //Moving up would put the player out of bounds
+                dir = null;
+            }
+            else {
+                dir = Direction.UP;
+            }
+        }
+        else if (s.equalsIgnoreCase("D")) {
+            //Down
+            if (pos.getY() >= map.getHeight()-1) {
+                //Moving down would put the player out of bounds
+                dir = null;
+            }
+            else {
+                dir = Direction.DOWN;
+            }
+        }
+        else if (s.equalsIgnoreCase("L")) {
+            //Left
+            if (pos.getX() <= 0) {
+                //Moving left would put the player out of bounds
+                dir = null;
+            }
+            else {
+                dir = Direction.LEFT;
+            }
+        }
+        else if (s.equalsIgnoreCase("R")) {
+            //Right
+            if (pos.getX() >= map.getWidth()-1) {
+                //Moving right would put the player out of bounds
+                dir = null;
+            }
+            else {
+                dir = Direction.RIGHT;
+            }
+        }
+        else {
+            //Unknown input string
+            dir = null;
+        }
+
+        return dir;
     }
 
     /**
@@ -94,6 +142,32 @@ public class Game {
      */
     public void updatePlayer(Player player, Direction dir) {
 
+        //Get the tile that the player is standing on
+        Position pos = player.getPosition();
+        TileType tile = map.getTileType(pos);
+
+        //Check the tile type
+        switch (tile) {
+            case WATER:
+                //Water tile, send the player back to the start
+                player.setNotice(PlayerNotice.WATER);
+                player.reset();
+                break;
+
+            case TREASURE:
+                //Player has found the treasure, end the game
+                player.setNotice(PlayerNotice.WIN);
+                gameFinished = true;
+                break;
+
+            case GRASS:
+                //Grass tile, do nothing
+                break;
+
+            default:
+                //tile is null, throw an error
+                throw new RuntimeException("Position out of bounds or map not yet generated.");
+        }
     }
 
     /**
@@ -101,7 +175,18 @@ public class Game {
      * Update all players.
      */
     public void finishGame() {
+        //Check each player to see if they have won
+        for (Player p: players) {
 
+            //If the player has not won, then they have lost
+            if (!p.hasWon()) {
+                p.setNotice(PlayerNotice.LOSE);
+            }
+
+            //Reveal the map to the player
+            p.revealAllTiles();
+            generateHTML(p);
+        }
     }
 
     /**
