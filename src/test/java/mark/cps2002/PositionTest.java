@@ -30,6 +30,18 @@ public class PositionTest {
     }
 
     @Test
+    public void equals_equalPosition_returnsTrue() {
+        Position otherPos = new Position(3, 128);
+        assertEquals(true, p.equals(otherPos));
+    }
+
+    @Test
+    public void equals_differentPosition_returnsFalse() {
+        Position otherPos = new Position(3, 64);
+        assertEquals(false, p.equals(otherPos));
+    }
+
+    @Test
     public void toString_returnedStringContainsPosition() {
         assertEquals("(3,128)", p.toString());
     }

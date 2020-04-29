@@ -18,6 +18,10 @@ public class Position {
         return this.y;
     }
 
+    public boolean equals(Position p) {
+        return (this.getX()==p.getX()) && (this.getY()==p.getY());
+    }
+
     public String toString() {
         return "(" + x + "," + y + ")";
     }
