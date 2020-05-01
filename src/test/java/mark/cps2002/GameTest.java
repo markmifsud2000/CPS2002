@@ -1,21 +1,32 @@
 package mark.cps2002;
 
+import javafx.geometry.Pos;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.File;
+
 import static org.junit.Assert.*;
 
 public class GameTest {
 
     Game myGame;
+    String outputDirPath;
+    File outputDir;
 
     @Before
     public void setup(){
         myGame = new Game(4, 10,15);
+        outputDirPath = "playerHtmlOutput";
+        outputDir = new File(outputDirPath);
     }
 
+    @After
     public void teardown() {
         myGame = null;
+        outputDirPath = null;
+        outputDir.delete();
     }
 
     @Test
@@ -43,6 +54,13 @@ public class GameTest {
     @Test (expected = IllegalArgumentException.class)
     public void game_boardTooBig_throwsException() {
         Game badGame = new Game (5, 100,100);
+    }
+
+    @Test
+    public void game_createsOutputDirectory() {
+        //Game constructor was called in setup, check if the directory exists
+        assertEquals(true, outputDir.exists());
+        assertEquals(true, outputDir.isDirectory());
     }
 
     @Test
@@ -112,5 +130,29 @@ public class GameTest {
     @Test
     public void isGameFinished_gameJustStarted_returnsFalse() {
         assertEquals(false, myGame.isGameFinished());
+    }
+
+    @Test
+    public void generateHtml_givenPlayer1_fileIsCreated() {
+        Position start = new Position(3,2);
+        Player p1 = new Player(0, 10, 15, start);
+
+        myGame.generateHTML(p1);
+        File htmlOutput = new File(outputDirPath + "/map_player_1.html");
+        assertEquals(true, htmlOutput.exists());
+    }
+
+    @Test
+    public void clearOutputDirectory_directoryHasFiles_directoryIsEmptied() {
+        //Create an output file
+        Position start = new Position(3,2);
+        Player p1 = new Player(0, 10, 15, start);
+        myGame.generateHTML(p1);
+
+        myGame.clearOutputDirectory();
+        File[] allOutputs = outputDir.listFiles();
+
+        //Check that the list of files in the output directory is empty
+        assertEquals(0, allOutputs.length);
     }
 }
