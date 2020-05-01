@@ -201,6 +201,15 @@ public class Player {
 
 
     /**
+     * Return the player back to the starting position.
+     * No other values are changed.
+     */
+    public void returnToStart() {
+
+    }
+
+
+    /**
      * Get the player's unique Identifier.
      * @return Integer value of the player's ID.
      */
