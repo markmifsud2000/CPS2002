@@ -1,3 +1,20 @@
+/**
+ * CPS2002 Software Engineering
+ * Assignment 2020
+ * Mark Mifsud (0382200L)
+ * B.Sc. Mathematics and Computer Science Yr2
+ *
+ * Player.java
+ * Last Modified: v1.0.0, 01/05/2020
+ *
+ * Represents players in the game.
+ * Each player stores their current position on the map, as well as the position that they started from.
+ * Players also maintain a grid the same size as the map, which keeps track of which tiles are visible to the
+ * player at a given point in time.
+ * Players are not aware of the actual Map object, but only keep an array with the same dimensions.
+ */
+
+
 package mark.cps2002;
 
 public class Player {
@@ -20,7 +37,7 @@ public class Player {
     public Player(int playerID, int boardWidth, int boardHeight, Position startPosition) throws IllegalArgumentException{
         this.playerId = playerID;
 
-        //Check if board values are valid
+        //Check if board values are valid, ie. all positive
         if(boardHeight <= 0 || boardWidth <= 0) {
             throw new IllegalArgumentException("Board Sizes must all be greater than 0.");
         }
@@ -47,8 +64,10 @@ public class Player {
         //Reveal start tile
         revealTile(startPosition);
 
+        //Player should not have any notices at the start of the game
         this.notice = PlayerNotice.NONE;
     }
+
 
     /**
      * The player moves one tile in the given direction.
@@ -115,10 +134,12 @@ public class Player {
 
         }
 
+        //Reveal the tile the player has just landed on
         revealTile(currentPosition);
 
         return success;
     }
+
 
     /**
      * Resets the player to the start of the game.
@@ -139,6 +160,7 @@ public class Player {
         revealTile(startTile);
     }
 
+
     /**
      * Marks a given tile as revealed to the player.
      * @param p The position of the tile to be revealed.
@@ -153,24 +175,30 @@ public class Player {
                 return true;
             }
             else {
+                //Position is invalid
                 return false;
             }
         }
         else {
+            //Position is invalid
             return false;
         }
     }
+
 
     /**
      * Mark the entire map as revealed.
      */
     public void revealAllTiles() {
+        //Loop through every each tile on the map
         for(int i = 0; i < revealedMap.length; i++) {
             for (int j = 0; j < revealedMap[0].length; j++) {
+                //Mark each tile as revealed
                 revealedMap[i][j] = true;
             }
         }
     }
+
 
     /**
      * Get the player's unique Identifier.
@@ -180,6 +208,7 @@ public class Player {
         return this.playerId;
     }
 
+
     /**
      * Get the player's current position.
      * @return The player's current position.
@@ -188,6 +217,7 @@ public class Player {
         return this.currentPosition;
     }
 
+
     /**
      * Get the player's start position.
      * @return The player's start position.
@@ -195,6 +225,7 @@ public class Player {
     public Position getStartPosition() {
         return this.startTile;
     }
+
 
     /**
      * Check if a given tile has been revealed by the player.
@@ -205,6 +236,7 @@ public class Player {
         return revealedMap[p.getX()][p.getY()];
     }
 
+
     /**
      * Returns any notices that have been given to the player.
      * @return The notice.
@@ -213,6 +245,7 @@ public class Player {
         return this.notice;
     }
 
+
     /**
      * Sets the players notice.
      * @param notice The notice to be set.
@@ -220,6 +253,7 @@ public class Player {
     public void setNotice(PlayerNotice notice) {
         this.notice = notice;
     }
+
 
     /**
      * Checks if the player has won the game.

@@ -1,3 +1,18 @@
+/**
+ * CPS2002 Software Engineering
+ * Assignment 2020
+ * Mark Mifsud (0382200L)
+ * B.Sc. Mathematics and Computer Science Yr2
+ *
+ * Game.java
+ * Last Modified: v1.0.0, 01/05/2020
+ *
+ * Game is responsible for coordinating the movement of all players over the map.
+ * The main gameplay loop takes place here.
+ * It also handles all input/output to the user through the console, as well as creation of output HTML files.
+ */
+
+
 package mark.cps2002;
 
 import java.io.File;
@@ -8,7 +23,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
+
 public class Game {
+
 
     private final int MIN_PLAYERS = 2;              //The minimum number of players
     private final int MAX_PLAYERS = 8;              //The maximum number of players
@@ -17,14 +34,17 @@ public class Game {
     private final int MIN_BOARD_SIZE_BIG = 8;       //The minimum board size for many players
     private final int MAX_BOARD_SIZE = 50;          //The maximum board size for any number of players
 
+
     private final String HTML_OUTPUT_DIR = "playerHtmlOutput";              //Path to output directory, directory must exist
     private final String CSS_STYLE_PATH = "../htmlResources/style.css";     //Path to html style (relative to output dir)
     private final String HTML_LEGEND_PATH = "htmlResources/mapLegend.html"; //Path to html map legend (relative to working dir)
+
 
     private Player[] players;       //The players currently in the game
     private Map map;                //The map being played on
     private int turn;               //The current turn number
     private boolean gameFinished;   //Whether or not the game has been finished yet
+
 
     /**
      * Constructor for Game.
@@ -36,20 +56,23 @@ public class Game {
      */
     public Game(int noOfPlayers, int boardWidth, int boardHeight) throws IllegalArgumentException{
 
-        //Check if all arguments are valid
+        //Check if all arguments are valid, throw exception if they are not
+
         //Check noOfPlayers
         if(noOfPlayers < MIN_PLAYERS || noOfPlayers > MAX_PLAYERS) {
             String message = "Invalid number of players. Must be between " + MIN_PLAYERS + " and " + MAX_PLAYERS + ".";
             throw new IllegalArgumentException(message);
         }
+
         //Check if board sizes are too large
         else if(boardWidth > MAX_BOARD_SIZE) {
             String message = "Board is too large. Maximum size is " + MAX_BOARD_SIZE + "x" + MAX_BOARD_SIZE + ".";
             throw new IllegalArgumentException(message);
         }
+
         //Check if board sizes are too small
         else {
-            //If there are many players
+            //If there are many players, use the larger minimum board size
             if(noOfPlayers > SMALL_BOARD_PLAYER_LIMIT) {
                 if(boardHeight < MIN_BOARD_SIZE_BIG || boardWidth < MIN_BOARD_SIZE_BIG) {
                     String message = "Board is too small. Minimum size for over " + SMALL_BOARD_PLAYER_LIMIT
@@ -57,13 +80,15 @@ public class Game {
                     throw new IllegalArgumentException(message);
                 }
             }
-            //If there are few players
+
+            //If there are few players, use the smaller minimum board size
             else if (boardHeight < MIN_BOARD_SIZE_SMALL || boardWidth < MIN_BOARD_SIZE_SMALL) {
                 String message = "Board is too small. Minimum size is " + MIN_BOARD_SIZE_SMALL + "x"
                         + MIN_BOARD_SIZE_SMALL + ".";
                 throw new IllegalArgumentException(message);
             }
         }
+
 
         //All arguments are correct, setup the game
 
@@ -74,13 +99,16 @@ public class Game {
         //Create players
         this.players = new Player[noOfPlayers];
         for (int i = 0; i < noOfPlayers; i++) {
+            //For each player, select a random start tile from the map
             Position start = this.map.selectRandomStartTile();
             this.players[i] = new Player(i, boardWidth, boardHeight, start);
         }
 
+
         //Initialise other values
         this.turn = 0;
         this.gameFinished = false;
+
 
         //Create the output directory if it doesn't exist
         File f = new File(HTML_OUTPUT_DIR);
@@ -89,6 +117,7 @@ public class Game {
         //Clear the output directory of any old files
         clearOutputDirectory();
     }
+
 
     /**
      * The main game loop.
@@ -108,7 +137,7 @@ public class Game {
             //Generate the HTML map for each player
             for (Player p: players) {
                 generateHTML(p);
-                p.setNotice(PlayerNotice.NONE); //Clear notice
+                p.setNotice(PlayerNotice.NONE); //Player's have been informed, clear any notice
             }
 
 
@@ -117,6 +146,7 @@ public class Game {
 
             //Each player takes their turn
             for (int i = 0; i < players.length; i++) {
+
                 //Loop turn for the same player until the input is valid
                 do {
                     //Ask the player to input a direction
@@ -150,9 +180,10 @@ public class Game {
             }
 
 
-        } while (!isGameFinished());    //If game not finished, go to start
+        } while (!isGameFinished());    //If the game is not finished, go to start
 
     }
+
 
     /**
      * Checks the players input to determine the direction.
@@ -175,6 +206,7 @@ public class Game {
                 dir = Direction.UP;
             }
         }
+
         else if (s.equalsIgnoreCase("D")) {
             //Down
             if (pos.getY() >= map.getHeight()-1) {
@@ -185,6 +217,7 @@ public class Game {
                 dir = Direction.DOWN;
             }
         }
+
         else if (s.equalsIgnoreCase("L")) {
             //Left
             if (pos.getX() <= 0) {
@@ -195,6 +228,7 @@ public class Game {
                 dir = Direction.LEFT;
             }
         }
+
         else if (s.equalsIgnoreCase("R")) {
             //Right
             if (pos.getX() >= map.getWidth()-1) {
@@ -205,6 +239,7 @@ public class Game {
                 dir = Direction.RIGHT;
             }
         }
+
         else {
             //Unknown input string
             dir = null;
@@ -212,6 +247,7 @@ public class Game {
 
         return dir;
     }
+
 
     /**
      * Update the players position/state.
@@ -251,11 +287,13 @@ public class Game {
         }
     }
 
+
     /**
      * End the game.
      * Update all players.
      */
     public void finishGame() {
+
         //Check each player to see if they have won
         for (Player p: players) {
 
@@ -268,7 +306,9 @@ public class Game {
             p.revealAllTiles();
             generateHTML(p);
         }
+
     }
+
 
     /**
      * Generates the HTML file with the map for a given player.
@@ -280,6 +320,7 @@ public class Game {
         String outputPath = HTML_OUTPUT_DIR + "/map_player_" + (player.getId()+1) + ".html";
         FileWriter outFile;
         PrintWriter html;
+
         try {
             //Create the HTML file in the output dir
             outFile = new FileWriter(outputPath, false);
@@ -407,6 +448,7 @@ public class Game {
         html.close();
     }
 
+
     /**
      * Get the number of players in the game.
      * @return The number of players.
@@ -414,6 +456,7 @@ public class Game {
     public int getNumberOfPlayers() {
         return players.length;
     }
+
 
     /**
      * Get the current turn number.
@@ -423,6 +466,7 @@ public class Game {
         return turn;
     }
 
+
     /**
      * Check if the game has finished yet.
      * @return True if the game is over, false otherwise.
@@ -431,17 +475,22 @@ public class Game {
         return gameFinished;
     }
 
+
     /**
      * Clears the output directory of any old files that are already in it.
      */
     public void clearOutputDirectory() {
         File dir = new File(HTML_OUTPUT_DIR);
-        File[] files = dir.listFiles();
-        if(files!=null) { //If the directory already exists
+        File[] files = dir.listFiles(); //Get a list of all the files in the directory
+
+        if(files!=null) { //If the directory is not empty
+
             for(File f: files) { //Delete all the old files in the directory
                 f.delete();
             }
+
         }
+
     }
 
 }

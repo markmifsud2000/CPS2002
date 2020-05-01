@@ -1,11 +1,29 @@
+/**
+ * CPS2002 Software Engineering
+ * Assignment 2020
+ * Mark Mifsud (0382200L)
+ * B.Sc. Mathematics and Computer Science Yr2
+ *
+ * Map.java
+ * Last Modified: v1.0.0, 01/05/2020
+ *
+ * Represents the map that the players play on.
+ * The map is stored as a grid, with each tile having a specified type.
+ * The map is randomly generated.
+ */
+
+
 package mark.cps2002;
 
 public class Map {
+
+    private double WATER_TILE_CHANCE = 0.2;   //The chance for a generated tile to be a water tile (20%)
 
     private TileType[][] grid;      //The actual grid of tiles on the map
     private int width;              //The width of the map
     private int height;             //The height of the map
     private boolean isGenerated;    //True if the map has been generated, false otherwise
+
 
     /**
      * Constructor for Map.
@@ -15,17 +33,21 @@ public class Map {
      * @throws IllegalArgumentException if board dimensions are negative.
      */
     public Map(int boardWidth, int boardHeight) throws IllegalArgumentException{
-        //Check if board values are valid
+
+        //Check if board values are valid, ie. are all positive
         if(boardHeight <= 0 || boardWidth <= 0) {
             throw new IllegalArgumentException("Board Sizes must all be greater than 0.");
         }
 
+        //Create a grid of the given dimensions
         this.grid = new TileType[boardWidth][boardHeight];
         this.width = boardWidth;
         this.height = boardHeight;
 
+        //The map has not been generated yet
         this.isGenerated = false;
     }
+
 
     /**
      * Generate the map.
@@ -36,10 +58,11 @@ public class Map {
         //Iterate through each tile on the grid.
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
+
                 //Randomly decide what type of tile will be generated
                 //Tiles have a 20% chance of being water tiles, otherwise they are grass
                 double r = Math.random();
-                if (r < 0.2) { //Water Tile
+                if (r < WATER_TILE_CHANCE) { //Water Tile
                     grid[i][j] = TileType.WATER;
                 }
                 else { //Grass Tile
@@ -55,9 +78,11 @@ public class Map {
 
         grid[treasureX][treasureY] = TileType.TREASURE;
 
+
         //Mark the map as generated
         isGenerated = true;
     }
+
 
     /**
      * Returns the type of tile at a given position.
@@ -65,16 +90,20 @@ public class Map {
      * @return The type of the tile.
      */
     public TileType getTileType(Position pos) {
+
         //Ensure that the map has been generated and the position is on the map
         if(!isGenerated || pos.getX() < 0 || pos.getX() >= width ||
                 pos.getY() < 0 || pos.getY() >= height) {
             return null;
         }
-        //Position is in the map, return the requested tile
+
+        //Position is in the map, return the requested tile's type
         else {
             return grid[pos.getX()][pos.getY()];
         }
+
     }
+
 
     /**
      * Randomly picks a grass tile to that is possible to use as a starting tile.
@@ -84,7 +113,7 @@ public class Map {
 
         //Check if the map has been generated.
         if(!isGenerated) {
-            return null;
+            return null;    //Map not generated, nothing to return
         }
 
         boolean isNotGrass = true;    //Flag, true if the selected tile is invalid
@@ -106,6 +135,7 @@ public class Map {
         return startTile;
     }
 
+
     /**
      * Returns the width of the map in number of tiles.
      * @return The width of the map.
@@ -113,6 +143,7 @@ public class Map {
     public int getWidth() {
         return this.width;
     }
+
 
     /**
      * Returns the height of the map in number of tiles.
@@ -122,6 +153,7 @@ public class Map {
         return this.height;
     }
 
+
     /**
      * Check if the map has been generated yet.
      * @return True if the map has been generated, false otherwise.
@@ -129,6 +161,9 @@ public class Map {
     public boolean isGenerated() {
         return isGenerated;
     }
+
+
+    //Print Map function can be used during testing to output the map layout to the console
 
     /*
     public void printMap() {
