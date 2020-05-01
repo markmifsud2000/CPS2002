@@ -105,11 +105,6 @@ public class Game {
             //Start the new turn
             turn++;
 
-            //Print Map
-            //ONLY FOR TESTING - REMOVE LATER
-            map.printMap();
-            System.out.println("\n");
-
             //Generate the HTML map for each player
             for (Player p: players) {
                 generateHTML(p);

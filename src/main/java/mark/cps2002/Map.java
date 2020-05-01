@@ -130,6 +130,7 @@ public class Map {
         return isGenerated;
     }
 
+    /*
     public void printMap() {
         /*
          *
@@ -137,6 +138,7 @@ public class Map {
          * Prints a revealed version of the map to the console.
          *
          */
+    /*
 
         //Print column numbers
         System.out.print("  ");
@@ -177,5 +179,6 @@ public class Map {
         System.out.println();
 
     }
+    */
 
 }
