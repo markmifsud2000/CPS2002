@@ -299,6 +299,27 @@ public class PlayerTest {
     }
 
 
+    //Test returnToStart function
+
+    @Test
+    public void returnToStart_playerSentToStart() {
+        //The player should be returned to the starting position
+
+        //Move the player away from the starting position
+        p.move(Direction.RIGHT);
+        p.move(Direction.UP);
+        p.move(Direction.UP);
+
+        //Return the player to their start position
+        p.returnToStart();
+
+        //Player should be back at (5,5)
+        assertEquals(5,p.getPosition().getX());
+        assertEquals(5,p.getPosition().getY());
+
+    }
+
+
     //Tests for getter functions
 
     @Test

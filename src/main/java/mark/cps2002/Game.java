@@ -268,7 +268,7 @@ public class Game {
             case WATER:
                 //Water tile, send the player back to the start
                 player.setNotice(PlayerNotice.WATER);
-                player.reset();
+                player.returnToStart();
                 break;
 
             case TREASURE:
