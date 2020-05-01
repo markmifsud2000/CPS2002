@@ -1,0 +1,50 @@
+/*
+Styles for HTML Map outputs.
+*/
+
+body {
+   background-color: #cccccc;
+}
+
+h2 {
+    margin-bottom: 5px;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+td, th {
+    border: 1px solid black;
+    text-align: center;
+}
+
+th {
+    background-color: navy;
+    color:white;
+    padding: 8px;
+}
+
+td {
+    height: 30px;
+    width: 30px;
+}
+
+#grass {
+    background-color: Lime;
+}
+
+#water {
+    background-color: aqua;
+}
+
+#treasure {
+    background-color: gold;
+}
+
+#hidden {
+    background-color: gray;
+}

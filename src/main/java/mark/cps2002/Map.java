@@ -130,4 +130,55 @@ public class Map {
         return isGenerated;
     }
 
+    /*
+    public void printMap() {
+        /*
+         *
+         * Temporary, to be used during testing
+         * Prints a revealed version of the map to the console.
+         *
+         */
+    /*
+
+        //Print column numbers
+        System.out.print("  ");
+        for (int i = 0; i < getWidth(); i++) {
+            System.out.print(i + " ");
+        }
+        System.out.println();
+
+        //Print Map
+        for(int i = 0; i < getHeight(); i++) {
+            //Print each row
+            System.out.print(i + " ");
+            for (int j = 0; j < getWidth(); j++) {
+                //Print each tile in the row
+                //Check if tile is revealed
+                char type = '?';
+                Position tile = new Position(j, i);
+
+                //Check tile type
+                switch (getTileType(tile)) {
+                    case GRASS:
+                        type = 'G';
+                        break;
+
+                    case WATER:
+                        type = 'W';
+                        break;
+
+                    case TREASURE:
+                        type = 'T';
+                        break;
+                }
+
+                System.out.print(type + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+
+    }
+    */
+
 }
