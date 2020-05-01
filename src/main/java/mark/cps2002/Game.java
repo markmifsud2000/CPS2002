@@ -5,7 +5,7 @@
  * B.Sc. Mathematics and Computer Science Yr2
  *
  * Game.java
- * Last Modified: v1.0.0, 01/05/2020
+ * Last Modified: v1.0.1, 01/05/2020
  *
  * Game is responsible for coordinating the movement of all players over the map.
  * The main gameplay loop takes place here.
