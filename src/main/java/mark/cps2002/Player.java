@@ -205,7 +205,11 @@ public class Player {
      * No other values are changed.
      */
     public void returnToStart() {
+        //Return player to start tile
+        currentPosition = startTile;
 
+        //Ensure that the start position is revealed
+        revealTile(currentPosition);
     }
 
 
