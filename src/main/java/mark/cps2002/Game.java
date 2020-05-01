@@ -1,3 +1,18 @@
+/**
+ * CPS2002 Software Engineering
+ * Assignment 2020
+ * Mark Mifsud (0382200L)
+ * B.Sc. Mathematics and Computer Science Yr2
+ *
+ * Game.java
+ * Last Modified: v1.0.0, 01/05/2020
+ *
+ * Game is responsible for coordinating the movement of all players over the map.
+ * The main gameplay loop takes place here.
+ * It also handles all input/output to the user through the console, as well as creation of output HTML files.
+ */
+
+
 package mark.cps2002;
 
 import java.io.File;
@@ -7,6 +22,7 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Scanner;
+
 
 public class Game {
 

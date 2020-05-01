@@ -1,3 +1,18 @@
+/**
+ * CPS2002 Software Engineering
+ * Assignment 2020
+ * Mark Mifsud (0382200L)
+ * B.Sc. Mathematics and Computer Science Yr2
+ *
+ * Map.java
+ * Last Modified: v1.0.0, 01/05/2020
+ *
+ * Represents the map that the players play on.
+ * The map is stored as a grid, with each tile having a specified type.
+ * The map is randomly generated.
+ */
+
+
 package mark.cps2002;
 
 public class Map {

@@ -1,3 +1,17 @@
+/**
+ * CPS2002 Software Engineering
+ * Assignment 2020
+ * Mark Mifsud (0382200L)
+ * B.Sc. Mathematics and Computer Science Yr2
+ *
+ * TileType.java
+ * Last Modified: v1.0.0, 01/05/2020
+ *
+ * TileType enumeration class provides a simple way to refer to different tiles on the map.
+ * Each different tile type results in a different affect when a player lands on it.
+ */
+
+
 package mark.cps2002;
 
 public enum TileType {

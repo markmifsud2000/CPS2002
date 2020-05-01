@@ -1,3 +1,20 @@
+/**
+ * CPS2002 Software Engineering
+ * Assignment 2020
+ * Mark Mifsud (0382200L)
+ * B.Sc. Mathematics and Computer Science Yr2
+ *
+ * Player.java
+ * Last Modified: v1.0.0, 01/05/2020
+ *
+ * Represents players in the game.
+ * Each player stores their current position on the map, as well as the position that they started from.
+ * Players also maintain a grid the same size as the map, which keeps track of which tiles are visible to the
+ * player at a given point in time.
+ * Players are not aware of the actual Map object, but only keep an array with the same dimensions.
+ */
+
+
 package mark.cps2002;
 
 public class Player {

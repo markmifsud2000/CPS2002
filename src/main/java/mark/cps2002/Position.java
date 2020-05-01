@@ -1,3 +1,17 @@
+/**
+ * CPS2002 Software Engineering
+ * Assignment 2020
+ * Mark Mifsud (0382200L)
+ * B.Sc. Mathematics and Computer Science Yr2
+ *
+ * Position.java
+ * Last Modified: v1.0.0, 01/05/2020
+ *
+ * Represents a position on the map.
+ * Each tile on the map has a corresponding position.
+ */
+
+
 package mark.cps2002;
 
 public class Position {

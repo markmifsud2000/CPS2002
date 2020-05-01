@@ -1,3 +1,15 @@
+/**
+ * CPS2002 Software Engineering
+ * Assignment 2020
+ * Mark Mifsud (0382200L)
+ * B.Sc. Mathematics and Computer Science Yr2
+ *
+ * PlayerTest.java
+ * Last Modified: v1.0.0, 01/05/2020
+ *
+ * Unit Tests for the various functions in the Player class.
+ */
+
 package mark.cps2002;
 
 
