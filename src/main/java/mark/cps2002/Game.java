@@ -1,5 +1,10 @@
 package mark.cps2002;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class Game {
@@ -10,6 +15,10 @@ public class Game {
     private final int MIN_BOARD_SIZE_SMALL = 5;     //The minimum board size for few players
     private final int MIN_BOARD_SIZE_BIG = 8;       //The minimum board size for many players
     private final int MAX_BOARD_SIZE = 50;          //The maximum board size for any number of players
+
+    private final String HTML_OUTPUT_DIR = "playerHtmlOutput";              //Path to output directory, directory must exist
+    private final String CSS_STYLE_PATH = "../htmlResources/style.css";     //Path to html style (relative to output dir)
+    private final String HTML_LEGEND_PATH = "htmlResources/mapLegend.html"; //Path to html map legend (relative to working dir)
 
     private Player[] players;       //The players currently in the game
     private Map map;                //The map being played on
@@ -77,7 +86,7 @@ public class Game {
      * The main game loop.
      * Calling this method begins the game.
      */
-    public void startGame() {
+    public void startGame() throws IOException{
 
         Scanner sc = new Scanner(System.in);
         sc.useDelimiter("\n");
@@ -243,7 +252,7 @@ public class Game {
      * End the game.
      * Update all players.
      */
-    public void finishGame() {
+    public void finishGame() throws IOException{
         //Check each player to see if they have won
         for (Player p: players) {
 
@@ -262,84 +271,125 @@ public class Game {
      * Generates the HTML file with the map for a given player.
      * @param player HTML generated for this player.
      */
-    public void generateHTML(Player player) {
+    public void generateHTML(Player player) throws IOException {
 
-        /*
-         *
-         * TEMPORARY IMPLEMENTATION, PRINTS TO CONSOLE INSTEAD OF HTML
-         *
-         */
+        //Create output file
+        String outputPath = HTML_OUTPUT_DIR + "/map_player_" + (player.getId()+1) + ".html";
+        FileWriter outFile = new FileWriter(outputPath, false);
+        PrintWriter html = new PrintWriter(outFile);
 
-        System.out.println("Player " + (player.getId()+1) + ";");
-        System.out.println("Turn " + turn + ";\n");
 
-        //Print column numbers
-        System.out.print("  ");
-        for (int i = 0; i < map.getWidth(); i++) {
-            System.out.print(i + " ");
-        }
-        System.out.println();
+        //Add Html head with reference to CSS file
+        html.println("<html>\n<head>");
+        html.println("<title>Player " + (player.getId()+1) + "</title>");
+        html.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + CSS_STYLE_PATH + "\">");
+        html.println("</head>\n\n");
+
+
+        //Display the map
+        html.println("<body>");
+        html.println("\n\n<!--Display Map-->\n\n");
+
+        //Table header, using appropriate values for width, player id and turn number
+        html.println("<table>");
+        html.println("<tr>");
+        html.println("<th colspan=" +map.getWidth()+ "><H2>Player " +(player.getId()+1)+ "</H2>Turn " + turn + "</th>");
+        html.println("</tr>");
+        html.println();
+
 
         //Print Map
         for(int i = 0; i < map.getHeight(); i++) {
             //Print each row
-            System.out.print(i + " ");
+            html.println("<tr>");
             for (int j = 0; j < map.getWidth(); j++) {
                 //Print each tile in the row
                 //Check if tile is revealed
-                char type = '?';
+                String type = "";
                 Position tile = new Position(j, i);
 
                 if (player.isTileRevealed(tile)) {
                     //Check tile type
                     switch (map.getTileType(tile)) {
                         case GRASS:
-                            type = 'G';
+                            type = "grass";
                             break;
 
                         case WATER:
-                            type = 'W';
+                            type = "water";
                             break;
 
                         case TREASURE:
-                            type = 'T';
+                            type = "treasure";
                             break;
                     }
                 }
                 else {
                     //Tile still covered
-                    type = '0';
+                    type = "hidden";
                 }
 
-                System.out.print(type + " ");
+                //Check if it is the current tile or start tile
+                String tileMarker = "";
+                if (tile.equals(player.getPosition())) {
+                    //Mark the current tile
+                    tileMarker = "X";
+                }
+                else if (tile.equals(player.getStartPosition())) {
+                    //Mark the start tile
+                    tileMarker = "O";
+                }
+
+                html.println("<td id=\"" + type + "\">" + tileMarker + "</td>");
             }
-            System.out.println();
+            html.println("</tr>\n");
         }
-        System.out.println();
+        html.println("</table>\n\n");
 
-        //Show Start Position
-        System.out.println("Start : " + player.getStartPosition().toString());
+        html.println("<br>\n");
 
-        //Show current Position
-        System.out.println("Position : " + player.getPosition().toString());
 
-        //Print any notices
-        String msg = "";
-        switch (player.getNotice()) {
-            case WATER:
-                msg = msg.concat("SPLASH! You hit a water tile, back to the start;");
-                break;
+        //Check if there is a notice to display
+        PlayerNotice notice = player.getNotice();
+        if (notice != PlayerNotice.NONE) {
+            html.println("<br><br>");
 
-            case WIN:
-                msg = msg.concat("YOU WIN!!!");
-                break;
+            //Get the message to show the user
+            String msg = "";
+            switch (player.getNotice()) {
+                case WATER:
+                    msg = "SPLASH!<br>You hit a water tile<br>Back to the start";
+                    break;
 
-            case LOSE:
-                msg = msg.concat("YOU LOSE :(");
-                break;
+                case WIN:
+                    msg = "GAME OVER<br>YOU WIN!!!";
+                    break;
+
+                case LOSE:
+                    msg = "GAME OVER<br>YOU LOSE :(";
+                    break;
+            }
+
+            html.println("<table>\n<tr>");
+            html.println("<th width="+ (map.getWidth()*30) + ">" + msg + "</th>");
+            html.println("</table>\n</tr>\n<br>");
         }
-        System.out.println("Notice: " + msg);
-        System.out.println("\n\n\n");
+
+
+        //Copy map legend into the file
+        String legend = "";
+        try {
+            legend = new String(Files.readAllBytes(Paths.get(HTML_LEGEND_PATH)));
+            html.println(legend);
+        }
+        catch (IOException e) {
+            //If the file cannot be accessed, do not include anything
+        }
+
+
+        html.println("</body>\n</html>");
+
+        html.close();
     }
 
     /**
