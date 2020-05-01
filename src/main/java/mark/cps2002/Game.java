@@ -1,5 +1,6 @@
 package mark.cps2002;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -80,13 +81,20 @@ public class Game {
         //Initialise other values
         this.turn = 0;
         this.gameFinished = false;
+
+        //Create the output directory if it doesn't exist
+        File f = new File(HTML_OUTPUT_DIR);
+        f.mkdir();
+
+        //Clear the output directory of any old files
+        clearOutputDirectory();
     }
 
     /**
      * The main game loop.
      * Calling this method begins the game.
      */
-    public void startGame() throws IOException{
+    public void startGame() {
 
         Scanner sc = new Scanner(System.in);
         sc.useDelimiter("\n");
@@ -252,7 +260,7 @@ public class Game {
      * End the game.
      * Update all players.
      */
-    public void finishGame() throws IOException{
+    public void finishGame() {
         //Check each player to see if they have won
         for (Player p: players) {
 
@@ -271,12 +279,24 @@ public class Game {
      * Generates the HTML file with the map for a given player.
      * @param player HTML generated for this player.
      */
-    public void generateHTML(Player player) throws IOException {
+    public void generateHTML(Player player) {
 
         //Create output file
         String outputPath = HTML_OUTPUT_DIR + "/map_player_" + (player.getId()+1) + ".html";
-        FileWriter outFile = new FileWriter(outputPath, false);
-        PrintWriter html = new PrintWriter(outFile);
+        FileWriter outFile;
+        PrintWriter html;
+        try {
+            //Create the HTML file in the output dir
+            outFile = new FileWriter(outputPath, false);
+            html = new PrintWriter(outFile);
+        }
+        catch (IOException e) {
+            //Output directory cannot be accessed, Inform the user.
+            System.out.println("Output directory cannot be accessed, html file for player " + (player.getId()+1) +
+                    " cannot be created.");
+            System.out.println(e.getMessage());
+            return;
+        }
 
 
         //Add Html head with reference to CSS file
@@ -414,6 +434,19 @@ public class Game {
      */
     public boolean isGameFinished() {
         return gameFinished;
+    }
+
+    /**
+     * Clears the output directory of any old files that are already in it.
+     */
+    public void clearOutputDirectory() {
+        File dir = new File(HTML_OUTPUT_DIR);
+        File[] files = dir.listFiles();
+        if(files!=null) { //If the directory already exists
+            for(File f: files) { //Delete all the old files in the directory
+                f.delete();
+            }
+        }
     }
 
 }
