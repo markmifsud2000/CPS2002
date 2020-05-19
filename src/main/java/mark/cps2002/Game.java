@@ -41,7 +41,7 @@ public class Game {
 
 
     private Player[] players;       //The players currently in the game
-    private Map map;                //The map being played on
+    private SimpleMap map;                //The map being played on
     private int turn;               //The current turn number
     private boolean gameFinished;   //Whether or not the game has been finished yet
 
@@ -93,7 +93,7 @@ public class Game {
         //All arguments are correct, setup the game
 
         //Create Map to play on
-        this.map = new Map(boardWidth, boardHeight);
+        this.map = new SimpleMap(boardWidth, boardHeight);
         this.map.generate();
 
         //Create players

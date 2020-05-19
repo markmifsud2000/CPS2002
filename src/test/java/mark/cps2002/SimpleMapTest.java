@@ -18,14 +18,14 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class MapTest {
+public class SimpleMapTest {
 
-    Map m;
+    SimpleMap m;
 
     @Before
     public void setup() {
         //Create a 10x5 Map
-        m = new Map(10,5);
+        m = new SimpleMap(10,5);
         m.generate();
     }
 
@@ -40,13 +40,13 @@ public class MapTest {
     @Test (expected = IllegalArgumentException.class)
     public void map_boardWidthNegative_throwsException(){
         //All map dimensions should be positive
-        Map badMap = new Map(-10, 10);
+        SimpleMap badMap = new SimpleMap(-10, 10);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void map_boardHeightNegative_throwsException(){
         //All map dimensions should be positive
-        Map badMap = new Map(10, -10);
+        SimpleMap badMap = new SimpleMap(10, -10);
     }
 
 
@@ -62,7 +62,7 @@ public class MapTest {
     @Test
     public void getTileType_blankMap_returnsNull() {
         //If the map has not been generated yet, there are no tiles to return
-        Map blankMap = new Map(10,10);
+        SimpleMap blankMap = new SimpleMap(10,10);
         Position pos = new Position(2,2);
         assertEquals(null, blankMap.getTileType(pos));
     }
@@ -106,7 +106,7 @@ public class MapTest {
     @Test
     public void selectRandomStartTile_blankMap_returnsNull() {
         //If the map has not been generated yet, there are no tiles to return
-        Map blankMap = new Map(10,10);
+        SimpleMap blankMap = new SimpleMap(10,10);
         assertEquals(null, blankMap.selectRandomStartTile());
     }
 
@@ -128,14 +128,14 @@ public class MapTest {
     @Test
     public void isGenerated_blankMap_returnsFalse() {
         //A brand new map should not be generated
-        Map blankMap = new Map(10,10);
+        SimpleMap blankMap = new SimpleMap(10,10);
         assertEquals(false, blankMap.isGenerated());
     }
 
     @Test
     public void isGenerated_generatedMap_returnsTrue() {
         //Once we call the generate method, the map should be marked as generated
-        Map generatedMap = new Map(10,10);
+        SimpleMap generatedMap = new SimpleMap(10,10);
         generatedMap.generate();
         assertEquals(true, generatedMap.isGenerated());
     }
