@@ -5,7 +5,7 @@
  * B.Sc. Mathematics and Computer Science Yr2
  *
  * Player.java
- * Last Modified: v1.0.0, 01/05/2020
+ * Last Modified: v1.0.1, 01/05/2020
  *
  * Represents players in the game.
  * Each player stores their current position on the map, as well as the position that they started from.
