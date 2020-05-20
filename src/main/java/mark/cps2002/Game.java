@@ -41,6 +41,7 @@ public class Game {
 
 
     private Player[] players;       //The players currently in the game
+    private MapCreator mc;          //The creator used to generate all required maps
     private Map map;                //The map being played on
     private int turn;               //The current turn number
     private boolean gameFinished;   //Whether or not the game has been finished yet
@@ -54,7 +55,7 @@ public class Game {
      * @param boardHeight The height of the board to be played on.
      * @throws IllegalArgumentException If any arguments are invalid or are not within limits.
      */
-    public Game(int noOfPlayers, int boardWidth, int boardHeight) throws IllegalArgumentException{
+    public Game(int noOfPlayers, int boardWidth, int boardHeight, String mapType) throws IllegalArgumentException{
 
         //Check if all arguments are valid, throw exception if they are not
 
@@ -92,9 +93,16 @@ public class Game {
 
         //All arguments are correct, setup the game
 
-        //Create Map to play on
-        this.map = new Map(boardWidth, boardHeight);
-        this.map.generate();
+        //Setup Map Creator to be used later
+        this.mc = new MapCreator();
+        Object[] mapArgs = new Object[]{boardWidth, boardHeight};
+        this.map = mc.create(mapType, mapArgs);
+
+        //Check if map was created successfully
+        if (this.map == null) {
+            //Map type was not found, throw an exception
+            throw new IllegalArgumentException("Map type must be either \"Safe\" or \"Hazard\"");
+        }
 
         //Create players
         this.players = new Player[noOfPlayers];
