@@ -15,9 +15,7 @@
 
 package mark.cps2002;
 
-public class SimpleMap implements Map{
-
-    private double WATER_TILE_CHANCE = 0.2;   //The chance for a generated tile to be a water tile (20%)
+public abstract class SimpleMap implements Map{
 
     private TileType[][] grid;      //The actual grid of tiles on the map
     private int width;              //The width of the map
@@ -48,12 +46,18 @@ public class SimpleMap implements Map{
         this.isGenerated = false;
     }
 
-
     /**
      * Generate the map.
      * Populates the map grid with grass, water and 1 treasure tile.
+     * To be implemented according to subclass requirements.
      */
-    public void generate() {
+    public abstract void generate();
+
+    /**
+     * Generate a simple map with a given percentage of water tiles.
+     * @param waterTileChance The percentage chance of a tile being a water tile.
+     */
+    protected void generateSimpleMap(double waterTileChance) {
 
         //Iterate through each tile on the grid.
         for (int i = 0; i < width; i++) {
@@ -62,7 +66,7 @@ public class SimpleMap implements Map{
                 //Randomly decide what type of tile will be generated
                 //Tiles have a 20% chance of being water tiles, otherwise they are grass
                 double r = Math.random();
-                if (r < WATER_TILE_CHANCE) { //Water Tile
+                if (r < waterTileChance) { //Water Tile
                     grid[i][j] = TileType.WATER;
                 }
                 else { //Grass Tile

@@ -4,10 +4,10 @@
  * Mark Mifsud (0382200L)
  * B.Sc. Mathematics and Computer Science Yr2
  *
- * MapTest.java
- * Last Modified: v1.0.0, 01/05/2020
+ * SimpleMapSafeTest.java
+ * Last Release: v1.0.0, 01/05/2020
  *
- * Unit Tests for the various functions in the Map class.
+ * Unit Tests for the various functions in the SimpleMapSafe class.
  */
 
 package mark.cps2002;
@@ -18,14 +18,14 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class SimpleMapTest {
+public class SimpleMapSafeTest {
 
     SimpleMap m;
 
     @Before
     public void setup() {
         //Create a 10x5 Map
-        m = new SimpleMap(10,5);
+        m = new SimpleMapSafe(10,5);
         m.generate();
     }
 
@@ -40,13 +40,13 @@ public class SimpleMapTest {
     @Test (expected = IllegalArgumentException.class)
     public void map_boardWidthNegative_throwsException(){
         //All map dimensions should be positive
-        SimpleMap badMap = new SimpleMap(-10, 10);
+        SimpleMap badMap = new SimpleMapSafe(-10, 10);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void map_boardHeightNegative_throwsException(){
         //All map dimensions should be positive
-        SimpleMap badMap = new SimpleMap(10, -10);
+        SimpleMap badMap = new SimpleMapSafe(10, -10);
     }
 
 
@@ -62,7 +62,7 @@ public class SimpleMapTest {
     @Test
     public void getTileType_blankMap_returnsNull() {
         //If the map has not been generated yet, there are no tiles to return
-        SimpleMap blankMap = new SimpleMap(10,10);
+        SimpleMap blankMap = new SimpleMapSafe(10,10);
         Position pos = new Position(2,2);
         assertEquals(null, blankMap.getTileType(pos));
     }
@@ -106,7 +106,7 @@ public class SimpleMapTest {
     @Test
     public void selectRandomStartTile_blankMap_returnsNull() {
         //If the map has not been generated yet, there are no tiles to return
-        SimpleMap blankMap = new SimpleMap(10,10);
+        SimpleMap blankMap = new SimpleMapSafe(10,10);
         assertEquals(null, blankMap.selectRandomStartTile());
     }
 
@@ -128,14 +128,14 @@ public class SimpleMapTest {
     @Test
     public void isGenerated_blankMap_returnsFalse() {
         //A brand new map should not be generated
-        SimpleMap blankMap = new SimpleMap(10,10);
+        SimpleMap blankMap = new SimpleMapSafe(10,10);
         assertEquals(false, blankMap.isGenerated());
     }
 
     @Test
     public void isGenerated_generatedMap_returnsTrue() {
         //Once we call the generate method, the map should be marked as generated
-        SimpleMap generatedMap = new SimpleMap(10,10);
+        SimpleMap generatedMap = new SimpleMapSafe(10,10);
         generatedMap.generate();
         assertEquals(true, generatedMap.isGenerated());
     }

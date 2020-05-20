@@ -93,7 +93,7 @@ public class Game {
         //All arguments are correct, setup the game
 
         //Create Map to play on
-        this.map = new SimpleMap(boardWidth, boardHeight);
+        this.map = new SimpleMapSafe(boardWidth, boardHeight);
         this.map.generate();
 
         //Create players
