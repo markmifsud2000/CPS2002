@@ -56,8 +56,15 @@ public abstract class SimpleMap implements Map{
     /**
      * Generate a simple map with a given percentage of water tiles.
      * @param waterTileChance The percentage chance of a tile being a water tile.
+     * @throws IllegalArgumentException If waterTileChance over 100% or less than 0%.
      */
-    protected void generateSimpleMap(double waterTileChance) {
+    protected void generateSimpleMap(double waterTileChance) throws IllegalArgumentException{
+
+        //Check if waterTileChance is Valid
+        if (waterTileChance < 0 || waterTileChance >= 1) {
+            throw new IllegalArgumentException("waterTileChance must be in the range 0.0 < chance <= 1.0");
+        }
+
 
         //Iterate through each tile on the grid.
         for (int i = 0; i < width; i++) {

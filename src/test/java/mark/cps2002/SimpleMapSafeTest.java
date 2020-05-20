@@ -38,15 +38,28 @@ public class SimpleMapSafeTest {
     //Test Map constructor
 
     @Test (expected = IllegalArgumentException.class)
-    public void map_boardWidthNegative_throwsException(){
+    public void simpleMapSafe_boardWidthNegative_throwsException(){
         //All map dimensions should be positive
         SimpleMap badMap = new SimpleMapSafe(-10, 10);
     }
 
     @Test (expected = IllegalArgumentException.class)
-    public void map_boardHeightNegative_throwsException(){
+    public void simpleMapSafe_boardHeightNegative_throwsException(){
         //All map dimensions should be positive
         SimpleMap badMap = new SimpleMapSafe(10, -10);
+    }
+
+
+    //Test generateSimpleMap
+
+    @Test (expected = IllegalArgumentException.class)
+    public void simpleMapHazard_generateSimpleMap_negativeWaterTiles(){
+        m.generateSimpleMap(-10);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void simpleMapHazard_generateSimpleMap_Over100PercentWaterTiles(){
+        m.generateSimpleMap(2);
     }
 
 
