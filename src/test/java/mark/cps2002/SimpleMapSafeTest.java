@@ -5,7 +5,7 @@
  * B.Sc. Mathematics and Computer Science Yr2
  *
  * SimpleMapSafeTest.java
- * Last Release: v1.0.0, 01/05/2020
+ * Last Release: v1.0.0, 01/05/2020 (As MapTest.java)
  *
  * Unit Tests for the various functions in the SimpleMapSafe class.
  */

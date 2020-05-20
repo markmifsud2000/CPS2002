@@ -5,9 +5,10 @@
  * B.Sc. Mathematics and Computer Science Yr2
  *
  * SimpleMap.java
- * Last Release: v1.0.0, 01/05/2020
+ * Last Release: N/A
  *
  * Represents the map that the players play on.
+ * A simple map takes a rectangular shape.
  * The map is stored as a grid, with each tile having a specified type.
  * The map is randomly generated.
  */

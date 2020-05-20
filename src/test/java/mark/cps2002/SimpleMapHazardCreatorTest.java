@@ -1,3 +1,15 @@
+/**
+ * CPS2002 Software Engineering
+ * Assignment 2020
+ * Mark Mifsud (0382200L)
+ * B.Sc. Mathematics and Computer Science Yr2
+ *
+ * SimpleMapHazardCreatorTest.java
+ * Last Release: N/A
+ *
+ * Unit Tests for the various functions in the SimpleMapHazardCreator class.
+ */
+
 package mark.cps2002;
 
 import org.junit.After;
