@@ -30,7 +30,7 @@ public class GameTest {
     @Before
     public void setup(){
         //Create a new Game with 4 players and a 10x15 board.
-        myGame = new Game(4, 10,15);
+        myGame = new Game(4, 10,15, "Safe");
         outputDirPath = "playerHtmlOutput";
         outputDir = new File(outputDirPath);
     }
@@ -56,25 +56,31 @@ public class GameTest {
     @Test (expected = IllegalArgumentException.class)
     public void game_lessThan2Players_throwsException() {
         //Game should not be constructed with less than 2 players
-        Game badGame = new Game (0, 10,10);
+        Game badGame = new Game (0, 10,10, "Safe");
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void game_moreThan8Players_throwsException() {
         //Game should not be constructed with more than 8 players
-        Game badGame = new Game (12, 10,10);
+        Game badGame = new Game (12, 10,10, "Safe");
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void game_boardTooSmall_throwsException() {
         //Game should not be constructed if the board is too small
-        Game badGame = new Game (5, 6,6);
+        Game badGame = new Game (5, 6,6, "Safe");
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void game_boardTooBig_throwsException() {
         //Game should not be constructed if board is too big
-        Game badGame = new Game (5, 100,100);
+        Game badGame = new Game (5, 100,100, "Safe");
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void game_badMapType_throwsException() {
+        //Game cannot be constructed since the map type does not exist
+        Game badGame = new Game (5, 10, 10, "Hello");
     }
 
     @Test
