@@ -4,11 +4,31 @@ public class MapCreator {
 
     public Map create(String type, Object[] args) {
         MapCreator typeCreator = selectCreator(type);
-        return typeCreator.create(type, args);
+
+        if (typeCreator == null) {
+            return null;
+        }
+        else {
+            return typeCreator.create(type, args);
+        }
     }
 
     private MapCreator selectCreator(String type) {
-        return null;
+
+        MapCreator mc;
+
+        if (type.equalsIgnoreCase("Safe")) {
+            mc = new SimpleMapSafeCreator();
+        }
+        else if (type.equalsIgnoreCase("Hazard")) {
+            mc = new SimpleMapHazardCreator();
+        }
+        else {
+            mc = null;
+        }
+
+
+        return mc;
     }
 
 }
