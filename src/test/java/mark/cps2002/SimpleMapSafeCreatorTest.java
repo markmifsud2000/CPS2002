@@ -75,4 +75,10 @@ public class SimpleMapSafeCreatorTest {
         Map m = mc.create("Safe", args);
     }
 
+    @Test (expected = Exception.class)
+    public void create_SafeMapArgsNotIntegers_returnsException() {
+        Object[] args = {10.5, "hello"};
+        Map m = mc.create("Safe", args);
+    }
+
 }

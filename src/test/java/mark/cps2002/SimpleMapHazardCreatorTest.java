@@ -75,4 +75,10 @@ public class SimpleMapHazardCreatorTest {
         Map m = mc.create("Hazard", args);
     }
 
+    @Test (expected = Exception.class)
+    public void create_HazardMapArgsNotIntegers_returnsException() {
+        Object[] args = {10.5, "hello"};
+        Map m = mc.create("Hazard", args);
+    }
+
 }
