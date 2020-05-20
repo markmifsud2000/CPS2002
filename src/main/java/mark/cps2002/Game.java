@@ -41,7 +41,9 @@ public class Game {
 
 
     private Player[] players;       //The players currently in the game
-    private SimpleMap map;                //The map being played on
+    private MapCreator mc;          //The creator used to generate all required maps
+    private Map map;                //The map being played on
+    private Object[] mapArgs;       //Arguments to be used when creating the map.
     private int turn;               //The current turn number
     private boolean gameFinished;   //Whether or not the game has been finished yet
 
@@ -92,17 +94,12 @@ public class Game {
 
         //All arguments are correct, setup the game
 
-        //Create Map to play on
-        this.map = new SimpleMapSafe(boardWidth, boardHeight);
-        this.map.generate();
+        //Setup Map Creator to be used later
+        this.mc = new MapCreator();
+        this.mapArgs = new Object[]{boardWidth, boardHeight};
 
         //Create players
         this.players = new Player[noOfPlayers];
-        for (int i = 0; i < noOfPlayers; i++) {
-            //For each player, select a random start tile from the map
-            Position start = this.map.selectRandomStartTile();
-            this.players[i] = new Player(i, boardWidth, boardHeight, start);
-        }
 
 
         //Initialise other values
@@ -124,6 +121,9 @@ public class Game {
      * Calling this method begins the game.
      */
     public void startGame() {
+
+        //Setup the map of the required type
+        setupMap();
 
         Scanner sc = new Scanner(System.in);
         sc.useDelimiter("\n");
@@ -181,6 +181,44 @@ public class Game {
 
 
         } while (!isGameFinished());    //If the game is not finished, go to start
+
+    }
+
+
+    /**
+     * Ask the user what kind of map they would like to play on and set it up accordingly.
+     * Create players to use this map.
+     */
+    public void setupMap() {
+        do {
+            //Loop until a valid map type is selected
+
+            Scanner sc = new Scanner(System.in);
+            sc.useDelimiter("\n");
+
+            //Ask the user what type of map they would like to play on.
+            System.out.println("Would you like to play on a Safe or Hazardous board?");
+            System.out.print("Please enter \"Safe\" or \"Hazard\": ");
+            String mapType = sc.nextLine();
+
+            //Create a map of the required type
+            map = mc.create(mapType, mapArgs);
+
+            if (map == null) {
+                //Inform the user if the input is not valid and the map was not created
+                System.out.println("\nPlease enter a valid map type.\n");
+            }
+
+            System.out.println("\n\n\n");
+        }while(map == null);
+
+
+        //Map was created, now create the players on the map
+        for (int i = 0; i < players.length; i++) {
+            //For each player, select a random start tile from the map
+            Position start = this.map.selectRandomStartTile();
+            this.players[i] = new Player(i, (int) mapArgs[0], (int) mapArgs[1], start);
+        }
 
     }
 
