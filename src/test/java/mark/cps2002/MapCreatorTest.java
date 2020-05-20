@@ -53,56 +53,5 @@ public class MapCreatorTest {
         assertEquals(null, m);
     }
 
-    @Test (expected = Exception.class)
-    public void create_SafeMapWithNoArgs_returnsException() {
-        Object[] args = {};
-        Map m = mc.create("Safe", args);
-    }
-
-    @Test (expected = Exception.class)
-    public void create_HazardMapWithNoArgs_returnsException() {
-        Object[] args = {};
-        Map m = mc.create("Hazard", args);
-    }
-
-    @Test
-    public void create_10x5SafeMap_MapWidthIs10() {
-        //Create a 10x5 map
-        Object[] args = {10, 5};
-        Map m = mc.create("Safe", args);
-
-        //Check if the created map has width 10
-        assertEquals(10, m.getWidth());
-    }
-
-    @Test
-    public void create_10x5SafeMap_MapHeightIs5() {
-        //Create a 10x5 map
-        Object[] args = {10, 5};
-        Map m = mc.create("Safe", args);
-
-        //Check if the created map has height 5
-        assertEquals(5, m.getHeight());
-    }
-
-    @Test
-    public void create_10x5HazardMap_MapWidthIs10() {
-        //Create a 10x5 map
-        Object[] args = {10, 5};
-        Map m = mc.create("Hazard", args);
-
-        //Check if the created map has width 10
-        assertEquals(10, m.getWidth());
-    }
-
-    @Test
-    public void create_10x5HazardMap_MapHeightIs5() {
-        //Create a 10x5 map
-        Object[] args = {10, 5};
-        Map m = mc.create("Hazard", args);
-
-        //Check if the created map has height 5
-        assertEquals(5, m.getHeight());
-    }
 
 }
