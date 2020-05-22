@@ -37,7 +37,8 @@ public class SimpleMapHazardTest {
 
     //Test Singleton
 
-    @Test void getInstance_get2Maps_MapsAreTheSame(){
+    @Test
+    public void getInstance_get2Maps_MapsAreTheSame(){
         SimpleMapHazard m1 = SimpleMapHazard.getInstance();
         SimpleMapHazard m2 = SimpleMapHazard.getInstance();
         assertEquals(m1, m2);

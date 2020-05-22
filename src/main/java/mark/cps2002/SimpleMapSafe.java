@@ -19,10 +19,10 @@ public class SimpleMapSafe extends SimpleMap{
     final double WATER_TILE_CHANCE = 0.1;   //The chance of a tile being water
 
     /**
-     * Create a simple map of a given size.
+     * Create a simple map.
      */
     private SimpleMapSafe(){
-        super(boardWidth, boardHeight);
+        super();
     }
 
     /**
@@ -30,7 +30,7 @@ public class SimpleMapSafe extends SimpleMap{
      * @return The current instance.
      */
     public static SimpleMapSafe getInstance() {
-        return null;
+        return new SimpleMapSafe();
     }
 
     /**
@@ -39,7 +39,7 @@ public class SimpleMapSafe extends SimpleMap{
      * @param boardHeight The height of the map.
      */
     public void generate(int boardWidth, int boardHeight){
-        super.generateSimpleMap(WATER_TILE_CHANCE);
+        super.generateSimpleMap(boardWidth, boardHeight, WATER_TILE_CHANCE);
     }
 
 }

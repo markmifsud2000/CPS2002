@@ -27,8 +27,8 @@ public class SimpleMapSafeCreator extends MapCreator{
         int height = (int) args[1];
 
         //Create the simple safe map
-        SimpleMapSafe m = new SimpleMapSafe(width, height);
-        m.generate();
+        SimpleMapSafe m = SimpleMapSafe.getInstance();
+        m.generate(width, height);
 
         return m;
     }

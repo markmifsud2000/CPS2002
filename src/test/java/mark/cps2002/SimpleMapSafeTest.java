@@ -37,7 +37,8 @@ public class SimpleMapSafeTest {
 
     //Test Singleton
 
-    @Test void getInstance_get2Maps_MapsAreTheSame(){
+    @Test
+    public void getInstance_get2Maps_MapsAreTheSame(){
         SimpleMapSafe m1 = SimpleMapSafe.getInstance();
         SimpleMapSafe m2 = SimpleMapSafe.getInstance();
         assertEquals(m1, m2);

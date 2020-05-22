@@ -27,18 +27,7 @@ public abstract class SimpleMap implements Map{
     /**
      * Constructor for Map.
      */
-    private SimpleMap(){
-
-        //Check if board values are valid, ie. are all positive
-        if(boardHeight <= 0 || boardWidth <= 0) {
-            throw new IllegalArgumentException("Board Sizes must all be greater than 0.");
-        }
-
-        //Create a grid of the given dimensions
-        this.grid = new TileType[boardWidth][boardHeight];
-        this.width = boardWidth;
-        this.height = boardHeight;
-
+    public SimpleMap(){
         //The map has not been generated yet
         this.isGenerated = false;
     }
@@ -58,9 +47,22 @@ public abstract class SimpleMap implements Map{
      * @param boardWidth The width of the map.
      * @param boardHeight The height of the map.
      * @param waterTileChance The percentage chance of a tile being a water tile.
-     * @throws IllegalArgumentException If waterTileChance over 100% or less than 0%.
+     * @throws IllegalArgumentException If map dimensions less than 0 or If waterTileChance over 100% or less than 0%.
      */
     protected void generateSimpleMap(int boardWidth, int boardHeight, double waterTileChance) throws IllegalArgumentException{
+        //Set up the map accordingly
+
+        //Check if board values are valid, ie. are all positive
+        if(boardHeight <= 0 || boardWidth <= 0) {
+            throw new IllegalArgumentException("Board Sizes must all be greater than 0.");
+        }
+
+        //Create a grid of the given dimensions
+        this.grid = new TileType[boardWidth][boardHeight];
+        this.width = boardWidth;
+        this.height = boardHeight;
+
+        //Begin generating the map
 
         //Check if waterTileChance is Valid
         if (waterTileChance < 0 || waterTileChance >= 1) {
