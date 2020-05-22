@@ -18,6 +18,8 @@ public class SimpleMapSafe extends SimpleMap{
 
     final double WATER_TILE_CHANCE = 0.1;   //The chance of a tile being water
 
+    private static SimpleMapSafe instance;  //The singleton instance for this map class
+
     /**
      * Create a simple map.
      */
@@ -30,7 +32,14 @@ public class SimpleMapSafe extends SimpleMap{
      * @return The current instance.
      */
     public static SimpleMapSafe getInstance() {
-        return new SimpleMapSafe();
+
+        //Check if an instance exists
+        if (instance == null) {
+            instance = new SimpleMapSafe();
+        }
+
+        //Return the working instance
+        return instance;
     }
 
     /**
