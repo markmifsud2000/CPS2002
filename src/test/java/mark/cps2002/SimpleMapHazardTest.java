@@ -35,16 +35,25 @@ public class SimpleMapHazardTest {
     }
 
 
+    //Test Singleton
+
+    @Test void getInstance_get2Maps_MapsAreTheSame(){
+        SimpleMapHazard m1 = SimpleMapHazard.getInstance();
+        SimpleMapHazard m2 = SimpleMapHazard.getInstance();
+        assertEquals(m1, m2);
+    }
+
+
     //Test Map Generation
 
     @Test (expected = IllegalArgumentException.class)
-    public void simpleMapHazard_boardWidthNegative_throwsException(){
+    public void generate_boardWidthNegative_throwsException(){
         //All map dimensions should be positive
         m.generate(-10, 10);
     }
 
     @Test (expected = IllegalArgumentException.class)
-    public void simpleMapHazard_boardHeightNegative_throwsException(){
+    public void generate_boardHeightNegative_throwsException(){
         //All map dimensions should be positive
         m.generate(10, -10);
     }
@@ -53,12 +62,12 @@ public class SimpleMapHazardTest {
     //Test generateSimpleMap
 
     @Test (expected = IllegalArgumentException.class)
-    public void simpleMapHazard_generateSimpleMap_negativeWaterTiles(){
+    public void generateSimpleMap_generateSimpleMap_negativeWaterTiles(){
         m.generateSimpleMap(10,10,-10);
     }
 
     @Test (expected = IllegalArgumentException.class)
-    public void simpleMapHazard_generateSimpleMap_Over100PercentWaterTiles(){
+    public void generateSimpleMap_generateSimpleMap_Over100PercentWaterTiles(){
         m.generateSimpleMap(10,10,2);
     }
 
