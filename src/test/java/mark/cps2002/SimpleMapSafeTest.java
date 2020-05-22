@@ -25,8 +25,8 @@ public class SimpleMapSafeTest {
     @Before
     public void setup() {
         //Create a 10x5 Map
-        m = new SimpleMapSafe(10,5);
-        m.generate();
+        m = SimpleMapSafe.getInstance();
+        m.generate(10, 5);
     }
 
     @After
@@ -35,31 +35,28 @@ public class SimpleMapSafeTest {
     }
 
 
-    //Test Map constructor
+    //Test Map generation
 
     @Test (expected = IllegalArgumentException.class)
-    public void simpleMapSafe_boardWidthNegative_throwsException(){
+    public void generate_boardWidthNegative_throwsException(){
         //All map dimensions should be positive
-        SimpleMap badMap = new SimpleMapSafe(-10, 10);
+        m.generate(-10, 10);
     }
 
     @Test (expected = IllegalArgumentException.class)
-    public void simpleMapSafe_boardHeightNegative_throwsException(){
+    public void generate_boardHeightNegative_throwsException(){
         //All map dimensions should be positive
-        SimpleMap badMap = new SimpleMapSafe(10, -10);
+        m.generate(10, -10);
     }
-
-
-    //Test generateSimpleMap
 
     @Test (expected = IllegalArgumentException.class)
     public void simpleMapHazard_generateSimpleMap_negativeWaterTiles(){
-        m.generateSimpleMap(-10);
+        m.generateSimpleMap(10,10,-10);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void simpleMapHazard_generateSimpleMap_Over100PercentWaterTiles(){
-        m.generateSimpleMap(2);
+        m.generateSimpleMap(10,10,2);
     }
 
 
@@ -75,9 +72,9 @@ public class SimpleMapSafeTest {
     @Test
     public void getTileType_blankMap_returnsNull() {
         //If the map has not been generated yet, there are no tiles to return
-        SimpleMap blankMap = new SimpleMapSafe(10,10);
+        m = SimpleMapSafe.getInstance();
         Position pos = new Position(2,2);
-        assertEquals(null, blankMap.getTileType(pos));
+        assertEquals(null, m.getTileType(pos));
     }
 
 
@@ -119,8 +116,8 @@ public class SimpleMapSafeTest {
     @Test
     public void selectRandomStartTile_blankMap_returnsNull() {
         //If the map has not been generated yet, there are no tiles to return
-        SimpleMap blankMap = new SimpleMapSafe(10,10);
-        assertEquals(null, blankMap.selectRandomStartTile());
+        m = SimpleMapSafe.getInstance();
+        assertEquals(null, m.selectRandomStartTile());
     }
 
 
@@ -141,15 +138,15 @@ public class SimpleMapSafeTest {
     @Test
     public void isGenerated_blankMap_returnsFalse() {
         //A brand new map should not be generated
-        SimpleMap blankMap = new SimpleMapSafe(10,10);
-        assertEquals(false, blankMap.isGenerated());
+        m = SimpleMapSafe.getInstance();
+        assertEquals(false, m.isGenerated());
     }
 
     @Test
     public void isGenerated_generatedMap_returnsTrue() {
         //Once we call the generate method, the map should be marked as generated
-        SimpleMap generatedMap = new SimpleMapSafe(10,10);
-        generatedMap.generate();
+        SimpleMap generatedMap = SimpleMapSafe.getInstance();
+        generatedMap.generate(10,10);
         assertEquals(true, generatedMap.isGenerated());
     }
 

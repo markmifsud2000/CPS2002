@@ -15,11 +15,6 @@ package mark.cps2002;
 
 public interface Map {
 
-    /**
-     * Get the current instance of the Map class.
-     * @return The instance of Map.
-     */
-    Map getInstance();
 
     /**
      * Randomly generates the contents of the map.

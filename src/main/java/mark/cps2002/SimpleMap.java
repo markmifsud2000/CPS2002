@@ -44,12 +44,6 @@ public abstract class SimpleMap implements Map{
     }
 
     /**
-     * Return the working instance of SimpleMap.
-     * @return The current instance.
-     */
-    public abstract SimpleMap getInstance();
-
-    /**
      * Generate the map.
      * Populates the map grid with grass, water and 1 treasure tile.
      * To be implemented according to subclass requirements.

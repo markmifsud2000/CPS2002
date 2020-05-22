@@ -29,7 +29,7 @@ public class SimpleMapSafe extends SimpleMap{
      * Get the current working instance of the SimpleMapSafe class.
      * @return The current instance.
      */
-    public SimpleMapSafe getInstance() {
+    public static SimpleMapSafe getInstance() {
         return null;
     }
 
