@@ -20,17 +20,25 @@ public class SimpleMapSafe extends SimpleMap{
 
     /**
      * Create a simple map of a given size.
-     * @param boardWidth The width of the map.
-     * @param boardHeight The height of the map.
      */
-    public SimpleMapSafe(int boardWidth, int boardHeight){
+    private SimpleMapSafe(){
         super(boardWidth, boardHeight);
     }
 
     /**
-     * Randomly generate the map.
+     * Get the current working instance of the SimpleMapSafe class.
+     * @return The current instance.
      */
-    public void generate(){
+    public SimpleMapSafe getInstance() {
+        return null;
+    }
+
+    /**
+     * Randomly generate the map.
+     * @param boardWidth The width of the map.
+     * @param boardHeight The height of the map.
+     */
+    public void generate(int boardWidth, int boardHeight){
         super.generateSimpleMap(WATER_TILE_CHANCE);
     }
 

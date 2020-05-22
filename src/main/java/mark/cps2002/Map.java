@@ -16,9 +16,17 @@ package mark.cps2002;
 public interface Map {
 
     /**
-     * Randomly generates the contents of the map.
+     * Get the current instance of the Map class.
+     * @return The instance of Map.
      */
-    void generate();
+    Map getInstance();
+
+    /**
+     * Randomly generates the contents of the map.
+     * @param boardWidth The width of the map.
+     * @param boardHeight The height of the map.
+     */
+    void generate(int boardWidth, int boardHeight);
 
     /**
      * Returns the type of tile at a given position.
