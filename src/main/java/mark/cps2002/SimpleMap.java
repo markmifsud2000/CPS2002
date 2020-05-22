@@ -26,12 +26,31 @@ public abstract class SimpleMap implements Map{
 
     /**
      * Constructor for Map.
-     * Constructs a map of the given dimensions.
+     */
+    public SimpleMap(){
+        //The map has not been generated yet
+        this.isGenerated = false;
+    }
+
+    /**
+     * Generate the map.
+     * Populates the map grid with grass, water and 1 treasure tile.
+     * To be implemented according to subclass requirements.
      * @param boardWidth The width of the map.
      * @param boardHeight The height of the map.
      * @throws IllegalArgumentException if board dimensions are negative.
      */
-    public SimpleMap(int boardWidth, int boardHeight) throws IllegalArgumentException{
+    public abstract void generate(int boardWidth, int boardHeight) throws IllegalArgumentException;
+
+    /**
+     * Generate a simple map with a given percentage of water tiles.
+     * @param boardWidth The width of the map.
+     * @param boardHeight The height of the map.
+     * @param waterTileChance The percentage chance of a tile being a water tile.
+     * @throws IllegalArgumentException If map dimensions less than 0 or If waterTileChance over 100% or less than 0%.
+     */
+    protected void generateSimpleMap(int boardWidth, int boardHeight, double waterTileChance) throws IllegalArgumentException{
+        //Set up the map accordingly
 
         //Check if board values are valid, ie. are all positive
         if(boardHeight <= 0 || boardWidth <= 0) {
@@ -43,23 +62,7 @@ public abstract class SimpleMap implements Map{
         this.width = boardWidth;
         this.height = boardHeight;
 
-        //The map has not been generated yet
-        this.isGenerated = false;
-    }
-
-    /**
-     * Generate the map.
-     * Populates the map grid with grass, water and 1 treasure tile.
-     * To be implemented according to subclass requirements.
-     */
-    public abstract void generate();
-
-    /**
-     * Generate a simple map with a given percentage of water tiles.
-     * @param waterTileChance The percentage chance of a tile being a water tile.
-     * @throws IllegalArgumentException If waterTileChance over 100% or less than 0%.
-     */
-    protected void generateSimpleMap(double waterTileChance) throws IllegalArgumentException{
+        //Begin generating the map
 
         //Check if waterTileChance is Valid
         if (waterTileChance < 0 || waterTileChance >= 1) {

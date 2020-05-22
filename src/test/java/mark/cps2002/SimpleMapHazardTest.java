@@ -25,8 +25,8 @@ public class SimpleMapHazardTest {
     @Before
     public void setup() {
         //Create a 10x5 Map
-        m = new SimpleMapHazard(10,5);
-        m.generate();
+        m = SimpleMapHazard.getInstance();
+        m.generate(10,5);
     }
 
     @After
@@ -35,31 +35,41 @@ public class SimpleMapHazardTest {
     }
 
 
-    //Test Map constructor
+    //Test Singleton
+
+    @Test
+    public void getInstance_get2Maps_MapsAreTheSame(){
+        SimpleMapHazard m1 = SimpleMapHazard.getInstance();
+        SimpleMapHazard m2 = SimpleMapHazard.getInstance();
+        assertEquals(m1, m2);
+    }
+
+
+    //Test Map Generation
 
     @Test (expected = IllegalArgumentException.class)
-    public void simpleMapHazard_boardWidthNegative_throwsException(){
+    public void generate_boardWidthNegative_throwsException(){
         //All map dimensions should be positive
-        SimpleMap badMap = new SimpleMapHazard(-10, 10);
+        m.generate(-10, 10);
     }
 
     @Test (expected = IllegalArgumentException.class)
-    public void simpleMapHazard_boardHeightNegative_throwsException(){
+    public void generate_boardHeightNegative_throwsException(){
         //All map dimensions should be positive
-        SimpleMap badMap = new SimpleMapHazard(10, -10);
+        m.generate(10, -10);
     }
 
 
     //Test generateSimpleMap
 
     @Test (expected = IllegalArgumentException.class)
-    public void simpleMapHazard_generateSimpleMap_negativeWaterTiles(){
-        m.generateSimpleMap(-10);
+    public void generateSimpleMap_generateSimpleMap_negativeWaterTiles(){
+        m.generateSimpleMap(10,10,-10);
     }
 
     @Test (expected = IllegalArgumentException.class)
-    public void simpleMapHazard_generateSimpleMap_Over100PercentWaterTiles(){
-        m.generateSimpleMap(2);
+    public void generateSimpleMap_generateSimpleMap_Over100PercentWaterTiles(){
+        m.generateSimpleMap(10,10,2);
     }
 
 
@@ -72,13 +82,15 @@ public class SimpleMapHazardTest {
         assertEquals(null, m.getTileType(badPosition));
     }
 
+    /*
     @Test
     public void getTileType_blankMap_returnsNull() {
         //If the map has not been generated yet, there are no tiles to return
-        SimpleMap blankMap = new SimpleMapHazard(10,10);
+        m = SimpleMapHazard.getInstance();
         Position pos = new Position(2,2);
-        assertEquals(null, blankMap.getTileType(pos));
+        assertEquals(null, m.getTileType(pos));
     }
+    */
 
 
     //Test Random start tile selection
@@ -116,12 +128,14 @@ public class SimpleMapHazardTest {
         }
     }
 
+    /*
     @Test
     public void selectRandomStartTile_blankMap_returnsNull() {
         //If the map has not been generated yet, there are no tiles to return
-        SimpleMap blankMap = new SimpleMapHazard(10,10);
-        assertEquals(null, blankMap.selectRandomStartTile());
+        m = SimpleMapHazard.getInstance();
+        assertEquals(null, m.selectRandomStartTile());
     }
+    */
 
 
     //Test getters
@@ -138,18 +152,20 @@ public class SimpleMapHazardTest {
         assertEquals(5,m.getHeight());
     }
 
+    /*
     @Test
     public void isGenerated_blankMap_returnsFalse() {
         //A brand new map should not be generated
-        SimpleMap blankMap = new SimpleMapHazard(10,10);
-        assertEquals(false, blankMap.isGenerated());
+        m = SimpleMapHazard.getInstance();
+        assertEquals(false, m.isGenerated());
     }
+    */
 
     @Test
     public void isGenerated_generatedMap_returnsTrue() {
         //Once we call the generate method, the map should be marked as generated
-        SimpleMap generatedMap = new SimpleMapHazard(10,10);
-        generatedMap.generate();
+        SimpleMap generatedMap = SimpleMapHazard.getInstance();
+        generatedMap.generate(10,10);
         assertEquals(true, generatedMap.isGenerated());
     }
 

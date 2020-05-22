@@ -27,8 +27,8 @@ public class SimpleMapHazardCreator extends MapCreator {
         int height = (int) args[1];
 
         //Create a simple hazard map
-        SimpleMapHazard m = new SimpleMapHazard(width, height);
-        m.generate();
+        SimpleMapHazard m = SimpleMapHazard.getInstance();
+        m.generate(width, height);
 
         return m;
 
