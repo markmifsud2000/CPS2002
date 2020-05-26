@@ -24,13 +24,15 @@ import java.io.File;
 public class GameTest {
 
     Game myGame;
+    Game teamGame;
     String outputDirPath;
     File outputDir;
 
     @Before
     public void setup(){
         //Create a new Game with 4 players and a 10x15 board.
-        myGame = new Game(4, 10,15, "Safe");
+        myGame = new Game(4, 10,15, "Safe", 0);
+        teamGame = new Game(8, 10, 15, "Safe", 3);
         outputDirPath = "playerHtmlOutput";
         outputDir = new File(outputDirPath);
     }
@@ -56,31 +58,43 @@ public class GameTest {
     @Test (expected = IllegalArgumentException.class)
     public void game_lessThan2Players_throwsException() {
         //Game should not be constructed with less than 2 players
-        Game badGame = new Game (0, 10,10, "Safe");
+        Game badGame = new Game (0, 10,10, "Safe", 0);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void game_moreThan8Players_throwsException() {
         //Game should not be constructed with more than 8 players
-        Game badGame = new Game (12, 10,10, "Safe");
+        Game badGame = new Game (12, 10,10, "Safe", 0);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void game_boardTooSmall_throwsException() {
         //Game should not be constructed if the board is too small
-        Game badGame = new Game (5, 6,6, "Safe");
+        Game badGame = new Game (5, 6,6, "Safe", 0);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void game_boardTooBig_throwsException() {
         //Game should not be constructed if board is too big
-        Game badGame = new Game (5, 100,100, "Safe");
+        Game badGame = new Game (5, 100,100, "Safe", 0);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void game_badMapType_throwsException() {
         //Game cannot be constructed since the map type does not exist
-        Game badGame = new Game (5, 10, 10, "Hello");
+        Game badGame = new Game (5, 10, 10, "Hello", 0);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void game_negativeTeamCount_throwsException() {
+        //Game cannot be constructed since the map type does not exist
+        Game badGame = new Game (5, 10, 10, "Safe", -1);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void game_moreTeamsThanPlayers_throwsException() {
+        //Game cannot be constructed since the map type does not exist
+        Game badGame = new Game (5, 10, 10, "Safe", 7);
     }
 
     @Test
@@ -163,6 +177,18 @@ public class GameTest {
     public void getNumberOfPlayers_4Players_returns4() {
         //Game has 4 players
         assertEquals(4, myGame.getNumberOfPlayers());
+    }
+
+    @Test
+    public void getNumberOfTeams_NoTeams_returns0() {
+        //Game has no teams
+        assertEquals(0, myGame.getNumberOfTeams());
+    }
+
+    @Test
+    public void getNumberOfTeams_teamGame_returns3() {
+        //Game has 3 teams
+        assertEquals(3, teamGame.getNumberOfTeams());
     }
 
     @Test

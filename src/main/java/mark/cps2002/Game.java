@@ -45,6 +45,7 @@ public class Game {
     private Map map;                //The map being played on
     private int turn;               //The current turn number
     private boolean gameFinished;   //Whether or not the game has been finished yet
+    private Team[] teams;           //The teams in the game (if any)
 
 
     /**
@@ -53,9 +54,10 @@ public class Game {
      * @param noOfPlayers The number of players in the game.
      * @param boardWidth The width of the map to be played on.
      * @param boardHeight The height of the board to be played on.
+     * @param teams The number of teams to be used. 0 for no teams.
      * @throws IllegalArgumentException If any arguments are invalid or are not within limits.
      */
-    public Game(int noOfPlayers, int boardWidth, int boardHeight, String mapType) throws IllegalArgumentException{
+    public Game(int noOfPlayers, int boardWidth, int boardHeight, String mapType, int teams) throws IllegalArgumentException{
 
         //Check if all arguments are valid, throw exception if they are not
 
@@ -66,8 +68,14 @@ public class Game {
         }
 
         //Check if board sizes are too large
-        else if(boardWidth > MAX_BOARD_SIZE) {
+        else if(boardWidth > MAX_BOARD_SIZE || boardHeight > MAX_BOARD_SIZE) {
             String message = "Board is too large. Maximum size is " + MAX_BOARD_SIZE + "x" + MAX_BOARD_SIZE + ".";
+            throw new IllegalArgumentException(message);
+        }
+
+        //Check if the number of teams is negative
+        else if(teams < 0 || teams > noOfPlayers) {
+            String message = "Number of teams must be between 0 and the number of players";
             throw new IllegalArgumentException(message);
         }
 
@@ -112,6 +120,16 @@ public class Game {
             this.players[i] = new Player(i, boardWidth, boardHeight, start);
         }
 
+        //Check if players are in teams
+        if (teams > 0) {
+            //Setup all the teams
+            this.teams = new Team[teams];
+            for (int i = 0; i < teams; i++) {
+                this.teams[i] = new Team(i, boardWidth, boardHeight);
+            }
+
+            assignTeams();
+        }
 
         //Initialise other values
         this.turn = 0;
@@ -124,6 +142,41 @@ public class Game {
 
         //Clear the output directory of any old files
         clearOutputDirectory();
+    }
+
+
+    /**
+     * Assign all players randomly to the teams
+     */
+    private void assignTeams() {
+
+        //Create an array with the index of each player
+        int[] playerIndexes = new int[players.length];
+        for (int i = 0; i < playerIndexes.length; i++) {
+            playerIndexes[i] = i;
+        }
+
+        //The number of players that still need to be assigned to a team
+        int remaining = playerIndexes.length;
+
+        //The team being assigned to
+        int teamIndex = 0;
+
+        //Assign each player to a team
+        while (remaining > 0) {
+
+            //Randomly select a player to assign to the current team
+            int rand = (int) Math.floor(Math.random()*remaining);
+            teams[teamIndex].addPlayer(players[playerIndexes[rand]]);
+
+            //Remove the player's index and move the last index to close the gap
+            remaining--;
+            playerIndexes[rand] = playerIndexes[remaining];
+
+            //Select next team
+            teamIndex = (teamIndex + 1) % teams.length;
+        }
+
     }
 
 
@@ -463,6 +516,22 @@ public class Game {
      */
     public int getNumberOfPlayers() {
         return players.length;
+    }
+
+
+    /**
+     * Get the number of teams in the game.
+     * @return the number of teams.
+     */
+    public int getNumberOfTeams() {
+        if (teams == null) {
+            //The game has no teams
+            return 0;
+        }
+        else {
+            //Return the number of teams
+            return teams.length;
+        }
     }
 
 
