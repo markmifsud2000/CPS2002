@@ -25,7 +25,7 @@ public class Team {
     private ArrayList<Player> players;  //The list of players in the team
 
     private int size;                   //The number of players in the team
-    int iter;                           //The index of the current player in the team
+    private int iter;                   //The index of the current player in the team
 
 
 
