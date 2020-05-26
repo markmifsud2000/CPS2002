@@ -273,7 +273,7 @@ public class TeamTest {
         Position start = new Position(0, 0);
         boolean b = t.isTileRevealed(start);
 
-        assertEquals(true, start);
+        assertEquals(true, b);
     }
 
     @Test

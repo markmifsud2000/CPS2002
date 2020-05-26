@@ -14,16 +14,44 @@
 
 package mark.cps2002;
 
+import java.util.ArrayList;
+
 public class Team {
+
+    private int id;                     //The unique Identifier for team
+    private boolean[][] revealedMap;    //Tile is set to true if the team has revealed that tile
+    private ArrayList<Player> players;  //The list of players in the team
+
+    private int size;                   //The number of players in the team
+    int iter;                   //The index of the current player in the team
+
+
 
     /**
      * Constructs a team
      * @param id The team's unique ID.
      * @param boardWidth The width of the board that the team will play on.
      * @param boardHeight The height of the board that the team will play on.
+     * @throws IllegalArgumentException if any argument is negative
      */
-    public Team (int id, int boardWidth, int boardHeight) {
+    public Team (int id, int boardWidth, int boardHeight) throws IllegalArgumentException{
 
+        //Check if all arguments are valid
+        if (id < 0) {
+            throw new IllegalArgumentException("Team id must be greater or equal to 0.");
+        }
+        else if (boardWidth <= 0 || boardHeight <= 0) {
+            throw new IllegalArgumentException("Board dimensions must be greater than 0.");
+        }
+
+
+        //Initialise values
+        this.id = id;
+        this.revealedMap = new boolean[boardWidth][boardHeight];
+
+        this.players = new ArrayList<>();
+        this.size = 0;
+        this.iter = -1;
     }
 
     //Iterator methods
@@ -34,7 +62,15 @@ public class Team {
      * @return The first player in the team.
      */
     public Player first() {
-        return null;
+        //Point to the first player in the team
+        if (size > 0) {
+            iter = -1;  //Calling next will return 0
+            return players.get(0);
+        }
+        else {
+            //Team is empty
+            return null;
+        }
     }
 
     /**
@@ -43,7 +79,18 @@ public class Team {
      * @return The next player in the team.
      */
     public Player next() {
-        return null;
+        //Increase the pointer to the next player
+        iter++;
+
+        //Check if there is a next player
+        if (iter < size) {
+            //Return the current player
+            return players.get(iter);
+        }
+        else {
+            //There is no next player
+            return null;
+        }
     }
 
     /**
@@ -51,7 +98,8 @@ public class Team {
      * @return True if there is a next player, false otherwise.
      */
     public boolean hasNext() {
-        return false;
+        //Check if there we can still increase the pointer
+        return iter < size-1;
     }
 
     /**
@@ -59,7 +107,21 @@ public class Team {
      * @return The current player.
      */
     public Player getCurrent() {
-        return null;
+        //Check if iter points at a player
+        if (iter < size && size > 0 && iter >= 0) {
+            //Do not increase pointer
+            return players.get(iter);
+        }
+        else if (iter < 0){
+            //Next has not been called yet
+            //Try return first player (returns null if team empty)
+            return first();
+        }
+        else {
+            //Pointer is out of the list
+            return null;
+        }
+
     }
 
     //End Iterator Methods
@@ -71,7 +133,7 @@ public class Team {
      * @return The team's id.
      */
     public int getId() {
-        return 0;
+        return this.id;
     }
 
     /**
@@ -79,7 +141,7 @@ public class Team {
      * @return The size of the team.
      */
     public int size() {
-        return 0;
+        return this.size;
     }
 
     /**
@@ -88,6 +150,16 @@ public class Team {
      * @return True if the player was added successfully, false otherwise.
      */
     public boolean addPlayer(Player player) {
+
+        //Check that the player is not null
+        if (player == null) {
+            return false;
+        }
+
+        //Add the player
+        size++;
+        players.add(player);
+
         return true;
     }
 
@@ -98,6 +170,22 @@ public class Team {
      */
     public void updateTeamMaps() {
 
+        //For each player
+        for (Player p: players) {
+
+            //Update each tile in the grid
+            for (int i = 0; i < revealedMap.length; i++) {
+                for (int j = 0; j < revealedMap.length; j++) {
+
+                    //if the player has revealed the tile, update it
+                    Position tile = new Position(i, j);
+                    revealedMap[i][j] = revealedMap[i][j] || p.isTileRevealed(tile);
+
+                }
+            }
+
+        }
+
     }
 
     /**
@@ -106,7 +194,10 @@ public class Team {
      * @return True if the tile is revealed, false otherwise.
      */
     public boolean isTileRevealed(Position pos) {
-        return false;
+        int x = pos.getX();
+        int y = pos.getY();
+
+        return this.revealedMap[x][y];
     }
 
 }
