@@ -5,7 +5,7 @@
  * B.Sc. Mathematics and Computer Science Yr2
  *
  * Game.java
- * Last Modified: v1.0.1, 01/05/2020
+ * Last Released: v1.0.1, 01/05/2020
  *
  * Game is responsible for coordinating the movement of all players over the map.
  * The main gameplay loop takes place here.
@@ -186,6 +186,13 @@ public class Game {
      */
     public void startGame() {
 
+        //Check if this is a team game
+        if (teams != null) {
+            startTeamGame();
+            return;
+        }
+
+
         Scanner sc = new Scanner(System.in);
         sc.useDelimiter("\n");
 
@@ -245,6 +252,100 @@ public class Game {
 
     }
 
+
+    /**
+     * The main game loop executed using teams.
+     * Calling this method begins the game.
+     * Turns are carried out in the order of teams.
+     */
+    public void startTeamGame() {
+
+        Scanner sc = new Scanner(System.in);
+        sc.useDelimiter("\n");
+
+        //Loop until the game is over
+        do {
+
+            //Start the new turn
+            turn++;
+
+            //Store the movement direction selected by each player
+            Direction[] playerMoves = new Direction[players.length];
+
+
+            //Generate HTML
+            for (Team t : teams) {
+                t.updateTeamMaps();
+
+                //generate HTML for each player
+                t.first();
+                while (t.hasNext()) {
+                    Player p = t.next();
+                    generateTeamHTML(t, p);
+                    p.setNotice(PlayerNotice.NONE); //Players have been informed, clear any notice
+                }
+
+            }
+
+
+            //Take input for each team
+            for (Team t: teams) {
+
+                System.out.println("Team " + (t.getId()+1) + ":\n");
+
+                t.first();
+                while(t.hasNext()) {
+
+                    Player p = t.next();    //Get the next player in the team
+                    int i = p.getId();      //Index of player in the player list
+
+                    //Loop turn for the same player until the input is valid
+                    do {
+                        //Ask the player to input a direction
+                        System.out.println("Player " + (p.getId()+1));
+                        System.out.println("Please enter a direction: (U)p, (D)own, (L)eft, (R)ight");
+                        String input = sc.nextLine();
+
+                        //Convert input string to direction
+                        playerMoves[i] = checkPlayerInput(input, p.getPosition());
+
+                        //If it was invalid, inform the user
+                        if (playerMoves[i] == null) {
+                            System.out.println("Please enter a valid direction. Keep inside the bounds of the map.\n");
+                        }
+
+                    } while (playerMoves[i] == null); //While input not valid
+
+                    System.out.println();
+
+                }
+
+                System.out.println("\n\n");
+
+            }
+
+
+            //Each teams have entered their moves, update each player
+            for (Team t : teams) {
+                //Update each player in the team
+                t.first();
+                while (t.hasNext()) {
+                    Player p = t.next();
+                    updatePlayer(p, playerMoves[p.getId()]);
+                }
+            }
+
+
+            //Check if any of of the teams have won
+            if (isGameFinished()) {
+                finishTeamGame();
+            }
+
+
+        } while (!isGameFinished());    //If the game is not finished, go to start
+
+
+    }
 
     /**
      * Checks the players input to determine the direction.
@@ -366,6 +467,59 @@ public class Game {
             //Reveal the map to the player
             p.revealAllTiles();
             generateHTML(p);
+        }
+
+    }
+
+
+    /**
+     * End the game when playing in teams.
+     * Update all teams.
+     */
+    public void finishTeamGame() {
+
+        //Check each team to see if anyone has won
+        for (Team t: teams) {
+            //Check each player in the team
+            t.first();
+            while (t.hasNext()) {
+                Player p = t.next();
+
+                if (p.hasWon()) {
+                    //This team has won
+                    t.setWin(true);
+                }
+                else {
+                    //If the player has not won, then they have lost
+                    p.setNotice(PlayerNotice.LOSE);
+                }
+
+                //reveal all tiles for the players
+                p.revealAllTiles();
+            }
+
+
+            //Check if this is the team that won
+            if (t.hasWon()) {
+                //Mark all players as winners
+                t.first();
+                while (t.hasNext()) {
+                    Player p = t.next();
+                    p.setNotice(PlayerNotice.WIN);
+                }
+            }
+
+        }
+
+
+        //Generate HTML for all teams
+        for (Team t: teams) {
+            //generate HTML for each player
+            t.first();
+            while (t.hasNext()) {
+                Player p = t.next();
+                generateTeamHTML(t, p);
+            }
         }
 
     }
@@ -507,6 +661,16 @@ public class Game {
         html.println("</body>\n</html>");
 
         html.close();
+    }
+
+
+    /**
+     * Generates HTML file with map for a player in a team.
+     * @param t The team that the player is in.
+     * @param p HTML generated for this player
+     */
+    public void generateTeamHTML(Team t, Player p) {
+        System.out.println("HELLO WORLD!!!");
     }
 
 
