@@ -194,7 +194,7 @@ public class Team {
 
             //Update each tile in the grid
             for (int i = 0; i < revealedMap.length; i++) {
-                for (int j = 0; j < revealedMap.length; j++) {
+                for (int j = 0; j < revealedMap[0].length; j++) {
 
                     //if the player has revealed the tile, update it
                     Position tile = new Position(i, j);

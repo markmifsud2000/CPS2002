@@ -220,6 +220,20 @@ public class GameTest {
     }
 
     @Test
+    public void generateTeamHtml_givenTeam1Player1_fileIsCreated() {
+        //Given player 1, the file map_player_1.html should be created
+        Position start = new Position(3,2);
+        Player p1 = new Player(0, 10, 15, start);
+        Team t1 = new Team(0, 10, 15);
+
+        myGame.generateTeamHTML(t1, p1);
+        File htmlOutput = new File(outputDirPath + "/map_player_1.html");
+
+        //Check if the file exists
+        assertEquals(true, htmlOutput.exists());
+    }
+
+    @Test
     public void clearOutputDirectory_directoryHasFiles_directoryIsEmptied() {
         //Place files in the output directory, when it is cleared, the all files should be removed
 

@@ -272,7 +272,6 @@ public class Game {
             //Store the movement direction selected by each player
             Direction[] playerMoves = new Direction[players.length];
 
-
             //Generate HTML
             for (Team t : teams) {
                 t.updateTeamMaps();
@@ -286,7 +285,6 @@ public class Game {
                 }
 
             }
-
 
             //Take input for each team
             for (Team t: teams) {
@@ -324,7 +322,6 @@ public class Game {
 
             }
 
-
             //Each teams have entered their moves, update each player
             for (Team t : teams) {
                 //Update each player in the team
@@ -335,17 +332,15 @@ public class Game {
                 }
             }
 
-
             //Check if any of of the teams have won
             if (isGameFinished()) {
                 finishTeamGame();
             }
 
-
         } while (!isGameFinished());    //If the game is not finished, go to start
 
-
     }
+
 
     /**
      * Checks the players input to determine the direction.
@@ -670,7 +665,137 @@ public class Game {
      * @param p HTML generated for this player
      */
     public void generateTeamHTML(Team t, Player p) {
-        System.out.println("HELLO WORLD!!!");
+        //Create output file
+        String outputPath = HTML_OUTPUT_DIR + "/map_player_" + (p.getId()+1) + ".html";
+        FileWriter outFile;
+        PrintWriter html;
+
+        try {
+            //Create the HTML file in the output dir
+            outFile = new FileWriter(outputPath, false);
+            html = new PrintWriter(outFile);
+        }
+        catch (IOException e) {
+            //Output directory cannot be accessed, Inform the user.
+            System.out.println("Output directory cannot be accessed, html file for player " + (p.getId()+1) +
+                    " cannot be created.");
+            System.out.println(e.getMessage());
+            return;
+        }
+
+
+        //Add Html head with reference to CSS file
+        html.println("<html>\n<head>");
+        html.println("<title>Player " + (p.getId()+1) + ", Team " + (t.getId()+1) + "</title>");
+        html.println("<link rel=\"stylesheet\" type=\"text/css\" href=\"" + CSS_STYLE_PATH + "\">");
+        html.println("</head>\n\n");
+
+
+        //Display the map
+        html.println("<body>");
+        html.println("\n\n<!--Display Map-->\n\n");
+
+        //Table header, using appropriate values for width, player id and turn number
+        html.println("<table>");
+        html.println("<tr>");
+        html.print("<th colspan=" +map.getWidth()+ "><H2>Player " +(p.getId()+1)+ "</H2>");
+        html.println("Team " + (t.getId()+1) + "<br>Turn " + turn + "</th>");
+        html.println("</tr>");
+        html.println();
+
+
+        //Print Map
+        for(int i = 0; i < map.getHeight(); i++) {
+            //Print each row
+            html.println("<tr>");
+            for (int j = 0; j < map.getWidth(); j++) {
+                //Print each tile in the row
+                //Check if tile is revealed
+                String type = "";
+                Position tile = new Position(j, i);
+
+                if (t.isTileRevealed(tile)) {
+                    //Check tile type
+                    switch (map.getTileType(tile)) {
+                        case GRASS:
+                            type = "grass";
+                            break;
+
+                        case WATER:
+                            type = "water";
+                            break;
+
+                        case TREASURE:
+                            type = "treasure";
+                            break;
+                    }
+                }
+                else {
+                    //Tile still covered
+                    type = "hidden";
+                }
+
+                //Check if it is the current tile or start tile
+                String tileMarker = "";
+                if (tile.equals(p.getPosition())) {
+                    //Mark the current tile
+                    tileMarker = "X";
+                }
+                else if (tile.equals(p.getStartPosition())) {
+                    //Mark the start tile
+                    tileMarker = "O";
+                }
+
+                html.println("<td id=\"" + type + "\">" + tileMarker + "</td>");
+            }
+            html.println("</tr>\n");
+        }
+        html.println("</table>\n\n");
+
+        html.println("<br>\n");
+
+
+        //Check if there is a notice to display
+        PlayerNotice notice = p.getNotice();
+        if (notice != PlayerNotice.NONE) {
+            html.println("<br><br>");
+
+            //Get the message to show the user
+            String msg = "";
+            switch (p.getNotice()) {
+                case WATER:
+                    msg = "SPLASH!<br>You hit a water tile<br>Back to the start";
+                    break;
+
+                case WIN:
+                    msg = "GAME OVER<br>YOUR TEAM WINS!!!";
+                    break;
+
+                case LOSE:
+                    msg = "GAME OVER<br>YOUR TEAM LOSES :(";
+                    break;
+            }
+
+            html.println("<table>\n<tr>");
+            html.println("<th width="+ (map.getWidth()*30) + ">" + msg + "</th>");
+            html.println("</table>\n</tr>\n<br>");
+        }
+
+
+        //Copy map legend into the file
+        String legend = "";
+        try {
+            legend = new String(Files.readAllBytes(Paths.get(HTML_LEGEND_PATH)));
+            html.println(legend);
+        }
+        catch (IOException e) {
+            //If the file cannot be accessed, do not include anything
+        }
+
+
+        html.println("</body>\n</html>");
+
+        html.close();
     }
 
 
