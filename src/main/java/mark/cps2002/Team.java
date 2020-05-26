@@ -64,7 +64,15 @@ public class Team {
 
     //End Iterator Methods
 
-    //Managing team members
+    //Managing team
+
+    /**
+     * Returns the team's unique ID.
+     * @return The team's id.
+     */
+    public int getId() {
+        return 0;
+    }
 
     /**
      * Get the number of members in the Team.
