@@ -94,18 +94,24 @@ public class TeamTest {
 
     @Test
     public void next_returnsNextPlayer() {
-        t.first();
         Player next = t.next();
+        assertEquals(p1, next);
+    }
+
+    @Test
+    public void next_next2times_returnsPlayer2() {
+        t.next();                   //p1
+        Player next = t.next();     //p2
         assertEquals(p2, next);
     }
 
     @Test
     public void next_noNextPlayer_returnsNull() {
-        t.first();  //p1
+        t.next();   //p1
         t.next();   //p2
         t.next();   //p3
 
-        Player next = t.next();
+        Player next = t.next(); //null
         assertEquals(null, next);
     }
 
@@ -133,7 +139,7 @@ public class TeamTest {
 
     @Test
     public void hasNext_endOfTeam_returnsFalse() {
-        t.first();  //p1
+        t.next();   //p1
         t.next();   //p2
         t.next();   //p3
 
@@ -151,6 +157,7 @@ public class TeamTest {
 
     @Test
     public void getCurrent_next_returnsSecondPlayer() {
+        t.next();   //p1
         t.next();   //p2
         Player p = t.getCurrent();
         assertEquals(p2, p);
@@ -165,6 +172,7 @@ public class TeamTest {
 
     @Test
     public void getCurrent_endOfTeam_returnsNull() {
+        t.next();   //p1
         t.next();   //p2
         t.next();   //p3
         t.next();   //null
@@ -215,6 +223,7 @@ public class TeamTest {
         t.addPlayer(p4);
 
         //get players
+        t.next();   //p1
         t.next();   //p2
         t.next();   //p3
         Player addedPlayer = t.next();
@@ -235,6 +244,13 @@ public class TeamTest {
 
         Player added = t2.first();
         assertEquals(p4, added);
+    }
+
+    @Test
+    public void addPlayer_addNullPlayer_returnsFalse() {
+        Player p4 = null;
+        Boolean b = t.addPlayer(p4);
+        assertEquals(false, b);
     }
 
     //Test updateTeamMap & isTileRevealed
