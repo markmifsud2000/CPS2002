@@ -253,6 +253,30 @@ public class TeamTest {
         assertEquals(false, b);
     }
 
+
+    //Test hasWon
+
+    @Test
+    public void hasWon_teamCreated_returnsFalse() {
+        boolean b = t.hasWon();
+        assertEquals(false, b);
+    }
+
+    @Test
+    public void hasWon_setWinFalse_returnsFalse() {
+        t.setWin(false);
+        boolean b = t.hasWon();
+        assertEquals(false, b);
+    }
+
+    @Test
+    public void hasWon_setWinTrue_returnsTrue() {
+        t.setWin(true);
+        boolean b = t.hasWon();
+        assertEquals(true, b);
+    }
+
+
     //Test updateTeamMap & isTileRevealed
 
     @Test

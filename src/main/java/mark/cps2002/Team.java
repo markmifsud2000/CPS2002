@@ -20,10 +20,12 @@ public class Team {
 
     private int id;                     //The unique Identifier for team
     private boolean[][] revealedMap;    //Tile is set to true if the team has revealed that tile
+    private boolean hasWon;             //True if the team has won, false otherwise
+
     private ArrayList<Player> players;  //The list of players in the team
 
     private int size;                   //The number of players in the team
-    int iter;                   //The index of the current player in the team
+    int iter;                           //The index of the current player in the team
 
 
 
@@ -48,6 +50,7 @@ public class Team {
         //Initialise values
         this.id = id;
         this.revealedMap = new boolean[boardWidth][boardHeight];
+        this.hasWon = false;
 
         this.players = new ArrayList<>();
         this.size = 0;
@@ -161,6 +164,22 @@ public class Team {
         players.add(player);
 
         return true;
+    }
+
+    /**
+     * Mark whether the player has won the game.
+     * @param win True if the team has won, false otherwise.
+     */
+    public void setWin(boolean win){
+        this.hasWon = win;
+    }
+
+    /**
+     * Check if the team has won the game.
+     * @return true if the team has won, false otherwise.
+     */
+    public boolean hasWon() {
+        return this.hasWon;
     }
 
     //Map management
