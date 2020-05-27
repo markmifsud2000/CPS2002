@@ -5,7 +5,7 @@
  * B.Sc. Mathematics and Computer Science Yr2
  *
  * GameTest.java
- * Last Modified: v1.0.0, 01/05/2020
+ * Last Release: v2.0.0 27/05/2020
  *
  * Unit Tests for the various functions in the Game class.
  */
@@ -24,13 +24,15 @@ import java.io.File;
 public class GameTest {
 
     Game myGame;
+    Game teamGame;
     String outputDirPath;
     File outputDir;
 
     @Before
     public void setup(){
         //Create a new Game with 4 players and a 10x15 board.
-        myGame = new Game(4, 10,15);
+        myGame = new Game(4, 10,15, "Safe", 0);
+        teamGame = new Game(8, 10, 15, "Safe", 3);
         outputDirPath = "playerHtmlOutput";
         outputDir = new File(outputDirPath);
     }
@@ -56,25 +58,67 @@ public class GameTest {
     @Test (expected = IllegalArgumentException.class)
     public void game_lessThan2Players_throwsException() {
         //Game should not be constructed with less than 2 players
-        Game badGame = new Game (0, 10,10);
+        Game badGame = new Game (0, 10,10, "Safe", 0);
     }
 
     @Test (expected = IllegalArgumentException.class)
     public void game_moreThan8Players_throwsException() {
         //Game should not be constructed with more than 8 players
-        Game badGame = new Game (12, 10,10);
+        Game badGame = new Game (12, 10,10, "Safe", 0);
     }
 
     @Test (expected = IllegalArgumentException.class)
-    public void game_boardTooSmall_throwsException() {
+    public void game_fewPlayersBoardWidthTooSmall_throwsException() {
         //Game should not be constructed if the board is too small
-        Game badGame = new Game (5, 6,6);
+        Game badGame = new Game (2, 2,6, "Safe", 0);
     }
 
     @Test (expected = IllegalArgumentException.class)
-    public void game_boardTooBig_throwsException() {
+    public void game_fewPlayersBoardHeightTooSmall_throwsException() {
+        //Game should not be constructed if the board is too small
+        Game badGame = new Game (2, 6,2, "Safe", 0);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void game_ManyPlayersBoardWidthTooSmall_throwsException() {
+        //Game should not be constructed if the board is too small
+        Game badGame = new Game (6, 6,10, "Safe", 0);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void game_ManyPlayersBoardHeightTooSmall_throwsException() {
+        //Game should not be constructed if the board is too small
+        Game badGame = new Game (6, 10,6, "Safe", 0);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void game_boardWidthTooBig_throwsException() {
         //Game should not be constructed if board is too big
-        Game badGame = new Game (5, 100,100);
+        Game badGame = new Game (5, 100,10, "Safe", 0);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void game_boardHeightTooBig_throwsException() {
+        //Game should not be constructed if board is too big
+        Game badGame = new Game (5, 10,100, "Safe", 0);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void game_badMapType_throwsException() {
+        //Game cannot be constructed since the map type does not exist
+        Game badGame = new Game (5, 10, 10, "Hello", 0);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void game_negativeTeamCount_throwsException() {
+        //Game cannot be constructed since the map type does not exist
+        Game badGame = new Game (5, 10, 10, "Safe", -1);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void game_moreTeamsThanPlayers_throwsException() {
+        //Game cannot be constructed since the map type does not exist
+        Game badGame = new Game (5, 10, 10, "Safe", 7);
     }
 
     @Test
@@ -160,6 +204,18 @@ public class GameTest {
     }
 
     @Test
+    public void getNumberOfTeams_NoTeams_returns0() {
+        //Game has no teams
+        assertEquals(0, myGame.getNumberOfTeams());
+    }
+
+    @Test
+    public void getNumberOfTeams_teamGame_returns3() {
+        //Game has 3 teams
+        assertEquals(3, teamGame.getNumberOfTeams());
+    }
+
+    @Test
     public void getTurnNumber_gameJustStarted_returns0() {
         //No turns have been played yet, turn should be 0
         assertEquals(0, myGame.getTurnNumber());
@@ -181,6 +237,20 @@ public class GameTest {
         Player p1 = new Player(0, 10, 15, start);
 
         myGame.generateHTML(p1);
+        File htmlOutput = new File(outputDirPath + "/map_player_1.html");
+
+        //Check if the file exists
+        assertEquals(true, htmlOutput.exists());
+    }
+
+    @Test
+    public void generateTeamHtml_givenTeam1Player1_fileIsCreated() {
+        //Given player 1, the file map_player_1.html should be created
+        Position start = new Position(3,2);
+        Player p1 = new Player(0, 10, 15, start);
+        Team t1 = new Team(0, 10, 15);
+
+        myGame.generateTeamHTML(t1, p1);
         File htmlOutput = new File(outputDirPath + "/map_player_1.html");
 
         //Check if the file exists
