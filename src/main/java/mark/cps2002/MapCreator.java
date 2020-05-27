@@ -5,7 +5,7 @@
  * B.Sc. Mathematics and Computer Science Yr2
  *
  * MapCreator.java
- * Last Released: N/A
+ * Last Release: v2.0.0 27/05/2020
  *
  * Used to create all different kinds Maps used in the game.
  * Will Call the appropriate creator class for a specific map type.

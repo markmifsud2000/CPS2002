@@ -5,7 +5,7 @@
  * B.Sc. Mathematics and Computer Science Yr2
  *
  * SimpleMap.java
- * Last Release: N/A
+ * Last Release: v2.0.0 27/05/2020
  *
  * Represents the map that the players play on.
  * A simple map takes a rectangular shape.

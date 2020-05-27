@@ -6,6 +6,10 @@ B.Sc. Mathematics and Computer Science Yr2
 
 __________________________________
 
+#### v1.0.2 - Arranged Branch Merging
+* Release branch for v1.0.1 did not actually contain the new features from develop.
+* All features have now been merged into master.
+
 #### v1.0.1 - Arranged Water Tile Action
 * When a player lands on a water tile, they will be sent back to the start tile, 
 but now all revealed tiles will remain revealed to the player, including the water tile.
