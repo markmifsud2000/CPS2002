@@ -510,6 +510,7 @@ public class Game {
         //Generate HTML for all teams
         for (Team t: teams) {
             //generate HTML for each player
+            t.updateTeamMaps();
             t.first();
             while (t.hasNext()) {
                 Player p = t.next();
