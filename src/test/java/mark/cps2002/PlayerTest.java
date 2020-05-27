@@ -85,9 +85,30 @@ public class PlayerTest {
     }
 
     @Test (expected = Exception.class)
-    public void player_startingPositionOutOfBounds_throwsException(){
+    public void player_startingPositionXOutOfBounds_throwsException(){
         //The player's starting position must be within the bounds of the given map
         Position start = new Position(20,7);
+        Player myPlayer = new Player(16,10,10,start);
+    }
+
+    @Test (expected = Exception.class)
+    public void player_startingPositionYOutOfBounds_throwsException(){
+        //The player's starting position must be within the bounds of the given map
+        Position start = new Position(7,20);
+        Player myPlayer = new Player(16,10,10,start);
+    }
+
+    @Test (expected = Exception.class)
+    public void player_startingPositionXNegative_throwsException(){
+        //The player's starting position must be within the bounds of the given map
+        Position start = new Position(-3,7);
+        Player myPlayer = new Player(16,10,10,start);
+    }
+
+    @Test (expected = Exception.class)
+    public void player_startingPositionYNegative_throwsException(){
+        //The player's starting position must be within the bounds of the given map
+        Position start = new Position(7,-3);
         Player myPlayer = new Player(16,10,10,start);
     }
 
@@ -206,6 +227,12 @@ public class PlayerTest {
 
     }
 
+    @Test (expected = NullPointerException.class)
+    public void move_nullDirection() {
+        //Giving null direction should throw an error
+        boolean b = p.move(null);
+    }
+
 
     //Test the reset function
 
@@ -276,10 +303,40 @@ public class PlayerTest {
     }
 
     @Test
-    public void revealTile_tileOutOfBounds_returnsFalse() {
+    public void revealTile_tileXOutOfBounds_returnsFalse() {
         //You cannot reveal tiles that are not on the map
 
-        Position pos = new Position(20, 20);
+        Position pos = new Position(20, 5);
+        boolean b = p.revealTile(pos);
+
+        assertEquals(false, b);
+    }
+
+    @Test
+    public void revealTile_tileYOutOfBounds_returnsFalse() {
+        //You cannot reveal tiles that are not on the map
+
+        Position pos = new Position(5, 20);
+        boolean b = p.revealTile(pos);
+
+        assertEquals(false, b);
+    }
+
+    @Test
+    public void revealTile_tileXNegative_returnsFalse() {
+        //You cannot reveal tiles that are not on the map
+
+        Position pos = new Position(-5, 5);
+        boolean b = p.revealTile(pos);
+
+        assertEquals(false, b);
+    }
+
+    @Test
+    public void revealTile_tileYNegative_returnsFalse() {
+        //You cannot reveal tiles that are not on the map
+
+        Position pos = new Position(5, -5);
         boolean b = p.revealTile(pos);
 
         assertEquals(false, b);

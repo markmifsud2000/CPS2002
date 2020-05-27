@@ -68,15 +68,39 @@ public class GameTest {
     }
 
     @Test (expected = IllegalArgumentException.class)
-    public void game_boardTooSmall_throwsException() {
+    public void game_fewPlayersBoardWidthTooSmall_throwsException() {
         //Game should not be constructed if the board is too small
-        Game badGame = new Game (5, 6,6, "Safe", 0);
+        Game badGame = new Game (2, 2,6, "Safe", 0);
     }
 
     @Test (expected = IllegalArgumentException.class)
-    public void game_boardTooBig_throwsException() {
+    public void game_fewPlayersBoardHeightTooSmall_throwsException() {
+        //Game should not be constructed if the board is too small
+        Game badGame = new Game (2, 6,2, "Safe", 0);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void game_ManyPlayersBoardWidthTooSmall_throwsException() {
+        //Game should not be constructed if the board is too small
+        Game badGame = new Game (6, 6,10, "Safe", 0);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void game_ManyPlayersBoardHeightTooSmall_throwsException() {
+        //Game should not be constructed if the board is too small
+        Game badGame = new Game (6, 10,6, "Safe", 0);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void game_boardWidthTooBig_throwsException() {
         //Game should not be constructed if board is too big
-        Game badGame = new Game (5, 100,100, "Safe", 0);
+        Game badGame = new Game (5, 100,10, "Safe", 0);
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void game_boardHeightTooBig_throwsException() {
+        //Game should not be constructed if board is too big
+        Game badGame = new Game (5, 10,100, "Safe", 0);
     }
 
     @Test (expected = IllegalArgumentException.class)

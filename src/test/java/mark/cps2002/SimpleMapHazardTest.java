@@ -76,9 +76,30 @@ public class SimpleMapHazardTest {
     //Test getTileType
 
     @Test
-    public void getTileType_positionOutOfBounds_returnsNull() {
+    public void getTileType_positionXOutOfBounds_returnsNull() {
         //Map can only return values if the position is actually on the map
-        Position badPosition = new Position(52, -1);
+        Position badPosition = new Position(52, 2);
+        assertEquals(null, m.getTileType(badPosition));
+    }
+
+    @Test
+    public void getTileType_positionYOutOfBounds_returnsNull() {
+        //Map can only return values if the position is actually on the map
+        Position badPosition = new Position(2, 52);
+        assertEquals(null, m.getTileType(badPosition));
+    }
+
+    @Test
+    public void getTileType_positionXNegative_returnsNull() {
+        //Map can only return values if the position is actually on the map
+        Position badPosition = new Position(-2, 2);
+        assertEquals(null, m.getTileType(badPosition));
+    }
+
+    @Test
+    public void getTileType_positionYNegative_returnsNull() {
+        //Map can only return values if the position is actually on the map
+        Position badPosition = new Position(2, -2);
         assertEquals(null, m.getTileType(badPosition));
     }
 
