@@ -5,7 +5,7 @@
  * B.Sc. Mathematics and Computer Science Yr2
  *
  * Team.java
- * Last Released:
+ * Last Release: v2.0.0 27/05/2020
  *
  * Represents a team in the game.
  * A team consists of multiple players who explore a map together.

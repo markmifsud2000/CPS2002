@@ -5,7 +5,7 @@
  * B.Sc. Mathematics and Computer Science Yr2
  *
  * Map.java
- * Last Release: v1.0.0, 01/05/2020
+ * Last Release: v2.0.0, 27/05/2020
  *
  * Represents the map that the players play on.
  * The map is randomly generated.

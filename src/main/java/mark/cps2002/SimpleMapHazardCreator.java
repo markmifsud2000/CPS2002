@@ -5,7 +5,7 @@
  * B.Sc. Mathematics and Computer Science Yr2
  *
  * SimpleMapHazardCreator.java
- * Last Released: N/A
+ * Last Release: v2.0.0 27/05/2020
  *
  * Used to create simple hazard maps for the Game.
  */

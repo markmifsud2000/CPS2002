@@ -5,7 +5,7 @@
  * B.Sc. Mathematics and Computer Science Yr2
  *
  * SimpleMapCreatorTest.java
- * Last Release: N/A
+ * Last Release: v2.0.0 27/05/2020
  *
  * Unit Tests for the various functions in the SimpleMapCreator class.
  */
